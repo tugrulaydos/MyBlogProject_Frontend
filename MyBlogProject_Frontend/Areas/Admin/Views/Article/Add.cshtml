@@ -1,0 +1,140 @@
+﻿@model ArticleAddDto
+
+
+
+@{
+	ViewData["Title"] = "Add";
+	Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<div class="card card-primary">
+	<div class="card-header">
+		<h3 class="card-title">Makale Ekle</h3>
+		<div class="card-tools">
+			<button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
+
+
+
+				<i class="fas fa-minus">
+
+				</i>
+			</button>
+		</div>
+
+
+	</div>
+
+
+
+
+	<form asp-controller="Article" asp-action="Add" method="post">
+
+		<div class="card-body">
+
+			<div class="form-group position-static  text-right">
+
+				<a class="btn text-primary float-lg-end" data-toggle="modal" data-target="#exampleModalCenter">
+					Kategori Ekle <i class="fas fa-plus-circle"></i>
+				</a>
+
+			</div>
+
+
+			<div class="form-group">
+
+
+
+				<label asp-for="CategoryId">Kategori</label>
+				<select class="form-control" asp-for="CategoryId" asp-items="@(new SelectList(Model.Categories,"ID","Name"))"></select>
+
+
+				<label asp-for="Title">Makale Adı</label>
+				<input asp-for="Title" type="text" class="form-control" id="ArticleName" placeholder="Lütfen Geçerli Bir Makale Adı Giriniz...">
+
+
+				@* <br />
+
+				<label asp-for="Content">İçerik</label>*@
+				@* <textarea asp-for="Content" placeholder="Lütfen içerik Giriniz..." aria-describedby="defaultFormControlHelp"></textarea>
+				*@
+
+				<label asp-for="Content">İçerik</label>
+				<textarea asp-for="Content" type="text" class="form-control mb-3" id="defaultFormControlInput" style="min-height:300px;" aria-describedby="defaultFormControlHelp"></textarea>
+
+
+
+
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-12">
+				<a href="/Article/Index" class="btn btn-secondary">İptal</a>
+				<input type="submit" value="Makale Ekle" class="btn btn-success float-right">
+			</div>
+		</div>
+
+	</form>
+
+
+
+	@*Modal*@
+	<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="exampleModalLongTitle">Kategori Ekleme</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<form>
+
+						<div class="form-group">
+
+							<label class="d-block form-label">Kategori İsmi</label>
+							<input class="form-control" type="text" id="categoryName" />
+
+						</div>
+
+					</form>
+
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-dismiss="modal">Kapat</button>
+					<button type="button" data-keyboard="false" class="btn btn-primary" id="btnSave">Kaydet</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+</div>
+
+
+@section Scripts
+	{
+
+	<script src="c:\users\tugru\.nuget\packages\datatables.net-dt\1.13.4\contentfiles\any\any\wwwroot\js\datatables.datatables.min.js"></script>
+
+	<script src="~/js/categoryAdd.js"></script>
+
+	<script>
+		var app = app || {}
+		app.Urls = app.Urls || {}
+		app.Urls.baseUrl = '@Url.Content("~")';
+		app.Urls.categoryAddUrl = "@(Url.Action("AddWithAjax", "Category"))";
+		app.Urls.articleAddUrl = "@(Url.Action("Add", "Article"))"
+
+	</script>
+
+	
+	
+
+	
+}
+
+
+
+
+

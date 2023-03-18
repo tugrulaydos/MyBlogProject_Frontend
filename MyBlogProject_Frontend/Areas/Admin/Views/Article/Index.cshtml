@@ -1,0 +1,87 @@
+﻿@model List<ApiArticleGetDto>
+
+@{
+	ViewData["Title"] = "Index";
+	Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+@section styles{
+	@*<link href="~/admin/plugins/datatables-bs4/css/datatables.bootstrap4.min.css" rel="stylesheet" />
+
+	
+	<link href="~/admin/plugins/datatables-responsive/css/responsive.bootstrap4.min.css" rel="stylesheet" />
+
+
+	<link href="~/admin/plugins/datatables-buttons/css/buttons.bootstrap4.min.css" rel="stylesheet" />*@
+
+	<link rel="stylesheet" href="/Admin/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
+	<link rel="stylesheet" href="/Admin/plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
+	<link rel="stylesheet" href="/Admin/plugins/datatables-buttons/css/buttons.bootstrap4.min.css">
+
+
+
+}
+
+
+
+<a class="btn btn-success mb-3" asp-area="Admin" asp-controller="Article" asp-action="Add">Makale Ekle<i class="bx bx-plus"></i></a>
+
+<table class="table" id="tblArticles">
+	<thead>
+	<th>ID</th>
+	<th>TITLE</th>
+	<th>CREATED DATE</th>
+	<th>MODIFIED DATE</th>
+	<th>DELETED DATE</th>
+	<th>GÜNCELLE </th>
+	<th>SİL</th>
+	<th>DETAY</th>
+
+
+	</thead>
+
+	<tbody>
+		@foreach (var item in Model)
+		{
+			@if (item.IsDeleted == false)
+			{
+				<tr>
+					<td>@item.ID</td>
+					<td>@item.Title</td>
+					<td>@(item.CreatedDate)</td>
+					<td>@item.ModifiedDate</td>
+					<td>@item.DeletedDate</td>
+					<td><a href="/Article/Update/@item.ID" class="btn btn-primary">Güncelle</a></td>
+					<td><a href="/Article/Delete/@item.ID" class="btn btn-danger">SİL</a></td>
+					<td><a href="/Article/Details/@item.ID" class="btn btn-warning">DETAY</a></td>
+
+				</tr>
+			}
+		}
+
+	</tbody>
+
+</table>
+
+
+@section scripts
+{
+
+    <script src="/Admin/plugins/datatables/jquery.dataTables.min.js" ></script>
+	<script src="/Admin/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
+
+	<script src="/Admin/plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
+	<script src="/Admin/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
+	<script src="/Admin/plugins/datatables-buttons/js/dataTables.buttons.min.js"></script>
+	<script src="/Admin/plugins/datatables-buttons/js/buttons.bootstrap4.min.js"></script>
+	<script src="/Admin/plugins/jszip/jszip.min.js"></script>
+	<script src="/Admin/plugins/pdfmake/pdfmake.min.js"></script>
+	<script src="/Admin/plugins/pdfmake/vfs_fonts.js"></script>
+	<script src="/Admin/plugins/datatables-buttons/js/buttons.html5.min.js"></script>
+	<script src="/Admin/plugins/datatables-buttons/js/buttons.print.min.js"></script>
+	<script src="/Admin/plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
+
+	<script src="~/js/articleindex.js"></script>	
+}
+
+

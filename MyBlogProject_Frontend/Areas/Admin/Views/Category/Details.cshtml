@@ -1,0 +1,56 @@
+﻿
+@model CategoryAddDto
+
+@{
+    ViewData["Title"] = "Details";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+
+<div class="card card-primary">
+    <div class="card-header">
+        <h3 class="card-title">Kategori Detayı</h3>
+        <div class="card-tools">
+            <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
+
+
+
+                <i class="fas fa-minus">
+
+                </i>
+            </button>
+        </div>
+
+    </div>
+
+
+
+    <form>
+
+        <div class="card-body">
+
+
+            <div class="form-group">                        
+
+                <label asp-for="Name">Kategori Adı</label>
+                <input asp-for="Name" type="text" class="form-control" readonly>               
+
+
+            </div>
+        </div>
+
+
+        <div class="row">
+            <div class="col-12">
+                <a href="/Category/Index" class="btn btn-secondary">Geri Gel</a>
+
+            </div>
+        </div>
+
+
+    </form>
+
+</div>
+
+
+

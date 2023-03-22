@@ -6,15 +6,17 @@
 	Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
 }
 
-@section styles{
-	
+@section styles{	
 
 	<link rel="stylesheet" href="/Admin/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
 	<link rel="stylesheet" href="/Admin/plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
 	<link rel="stylesheet" href="/Admin/plugins/datatables-buttons/css/buttons.bootstrap4.min.css">
 
+	<link href="~/admin/plugins/select2/css/select2.min.css" rel="stylesheet" />
+	@*<link href="~/admin/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css" rel="stylesheet" />*@
 
-
+	@*<link href="~/admin/plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css" rel="stylesheet" />*@
+    <link href="~/admin/plugins/sweetalert2/sweetalert2.min.css" rel="stylesheet" />
 }
 
 
@@ -26,9 +28,9 @@
 
 	<thead>
 		<th>ID</th>
-		<th>NAME</th>		
-		<th>SİL</th>
-		<th>GÜNCELLE</th>
+		<th>NAME</th>
+    	<th>GÜNCELLE</th>
+		<th>SİL</th>		
 		<th>DETAY</th>
 	</thead>
 
@@ -39,9 +41,10 @@
 			{
 				<tr>
 					<td>@item.ID</td>
-					<td>@item.Name</td>					
-					<td><a href="/Category/Delete/@item.ID" class="btn btn-danger">SİL</a></td>
+					<td>@item.Name</td>						
+										
 					<td><a href="/Category/CategoryUpdate/@item.ID" class="btn btn-primary">Güncelle</a></td>
+					<td><button type="button" class="btn btn-danger" id="DeleteCategory" span="@item.ID">Sil</button></td>
 					<td><a href="/Category/Details/@item.ID" class="btn btn-warning">Detay</a></td>
 				</tr>
 			}
@@ -67,5 +70,13 @@
 	<script src="/Admin/plugins/datatables-buttons/js/buttons.print.min.js"></script>
 	<script src="/Admin/plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
 
+	<script src="~/admin/plugins/select2/js/select2.min.js"></script>
+
+	<script src="~/admin/plugins/sweetalert2/sweetalert2.min.js"></script>
+
+	<script src="~/js/deletewarningforcategory.js"></script>
+
 	<script src="~/js/CategoryIndex.js"></script>
+
+	
 }

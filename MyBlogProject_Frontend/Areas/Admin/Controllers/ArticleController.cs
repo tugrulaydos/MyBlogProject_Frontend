@@ -118,8 +118,9 @@ namespace MyBlogProject_Frontend.Areas.Admin.Controllers
             return RedirectToAction("Index", "Article"); 
            
         }
+
         
-        public IActionResult Delete(int id)
+        public IActionResult Delete([FromBody]int id)
         {
 			HttpClient client = new HttpClient();
 			client.BaseAddress = new Uri("https://localhost:7147/api/Article/SoftDelete?Id=" + id);
@@ -128,7 +129,13 @@ namespace MyBlogProject_Frontend.Areas.Admin.Controllers
 			//HttpResponseMessage msg = client.PostAsync(client.BaseAddress, content).Result;
 
 			HttpResponseMessage msg = client.DeleteAsync(client.BaseAddress).Result;
-			return RedirectToAction("Index", "Article");
+
+            //return RedirectToAction("Index", "Article");
+
+            if (msg.StatusCode == System.Net.HttpStatusCode.OK)
+                return Json(new { isSuccess = true });
+
+            return Json(new { isSuccess = false });
 
 		}
 

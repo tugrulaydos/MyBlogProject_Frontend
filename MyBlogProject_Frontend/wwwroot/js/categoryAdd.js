@@ -54,9 +54,7 @@ $(document).ready(function () {
             Name: $("input[id=categoryName]").val()
         }
 
-        var jsonData = JSON.stringify(categoryAddDto);
-
-        
+        var jsonData = JSON.stringify(categoryAddDto);        
 
         $.ajax({
             
@@ -65,7 +63,6 @@ $(document).ready(function () {
             contentType: "application/json; charset=utf-8",
             dataType: "json",
             data: jsonData,
-
             
 
 

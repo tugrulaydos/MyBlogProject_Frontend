@@ -76,10 +76,7 @@ namespace MyBlogProject_Frontend.Areas.Admin.Controllers
                 return Json(new {isSuccess= true});
 
             }
-
-            return Json(new {isSuccess= false});
-
-			
+            return Json(new {isSuccess= false});		
 
         }
 

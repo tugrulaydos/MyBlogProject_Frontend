@@ -58,7 +58,7 @@ namespace MyBlogProject_Frontend.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        public IActionResult Add(ArticleAddDto articleAddDto)
+        public IActionResult Add([FromBody] ArticleAddDto articleAddDto)
         {
 
             articleAddDto.ImageId = 2;
@@ -67,7 +67,16 @@ namespace MyBlogProject_Frontend.Areas.Admin.Controllers
             string jsonString = JsonConvert.SerializeObject(articleAddDto);
             StringContent content = new StringContent(jsonString, Encoding.UTF8, "application/json");
             HttpResponseMessage msg = client.PostAsync(client.BaseAddress, content).Result;
-            return RedirectToAction("Index", "Article");
+
+            if (msg.StatusCode == System.Net.HttpStatusCode.OK)
+            {
+                return Json(new { isSuccess = true });
+
+            }
+
+            return Json(new { isSuccess = false });
+
+			
 
         }
 

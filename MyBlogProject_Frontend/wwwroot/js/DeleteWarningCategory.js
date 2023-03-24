@@ -1,8 +1,10 @@
-﻿$(document).ready(function () {
+﻿
+$(document).ready(function () {
 
-    $("#DeleteCategory").click(function (e) {
-
-        const dataId = $("#DeleteCategory").attr("span");
+    $(".DeleteCategory").click(function (e) {
+               
+        
+        const dataId = $(this).attr("span");
         e.preventDefault();
 
         Swal.fire({
@@ -55,9 +57,11 @@
 
 
 
+
+
+
     });
 
 
 });
-
 

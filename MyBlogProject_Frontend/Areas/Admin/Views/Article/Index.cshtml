@@ -52,8 +52,8 @@
 					<td>@item.ModifiedDate</td>
 					<td>@item.DeletedDate</td>
 					<td><a href="/Article/Update/@item.ID" class="btn btn-primary">Güncelle</a></td>
-					@*<td><a href="/Article/Delete/@item.ID" id="DeleteArticle" class="btn btn-danger">SİL</a></td>*@
-					<td><button type="button" class="btn btn-danger" id="DeleteArticle" span="@item.ID">Sil</button></td>
+					
+					<td><button type="button" class="btn btn-danger DeleteArticle"  span="@item.ID">Sil</button></td>
 					<td><a href="/Article/Details/@item.ID" class="btn btn-warning">DETAY</a></td>
 
 				</tr>
@@ -82,12 +82,10 @@
 	<script src="/Admin/plugins/datatables-buttons/js/buttons.print.min.js"></script>
 	<script src="/Admin/plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
 
+
+	<script src="~/js/deletewarningarticle.js"></script>
 	<script src="~/admin/plugins/select2/js/select2.full.min.js"></script>
-
-	<script src="~/js/deletewarning.js"></script>
-
-	<script src="~/admin/plugins/sweetalert2/sweetalert2.min.js"></script>
-
+		<script src="~/admin/plugins/sweetalert2/sweetalert2.min.js"></script>
 	<script src="~/js/ArticleIndex.js"></script>	
 
 }

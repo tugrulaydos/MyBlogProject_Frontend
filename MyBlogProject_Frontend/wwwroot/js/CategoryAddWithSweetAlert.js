@@ -1,21 +1,19 @@
-﻿
-$(document).ready(function () {
-    $("#ArticleAdd").click(function (e) {
+﻿$(document).ready(function () {
+    $("#AddCategory").click(function (e) {
 
         var formdata =
         {
-            
-            Title: $("#ArticleName").val(),
-            Content: $("#defaultFormControlInput").val(),
-            CategoryId: $("#CategoryID").val()
+
+            Name: $("#CategoryName").val()
+           
         }
 
         e.preventDefault();
 
-      
+
         let timerInterval
         Swal.fire({
-            title: 'Lütfen Bekleyiniz!',
+            title: 'Kategori Ekleniyor!',
 
             width: 600,
             padding: '3em',
@@ -36,37 +34,37 @@ $(document).ready(function () {
                 clearInterval(timerInterval)
             }
         }).then((result) => {
-           
+
             if (result.dismiss === Swal.DismissReason.timer) {
-              
+
                 $.ajax({
 
-                    url: "/Article/Add",
+                    url: "/Category/Add",
                     type: "Post",
                     contentType: 'application/json',
                     dataType: 'json',
-                    data: JSON.stringify(formdata),                    
+                    data: JSON.stringify(formdata),
 
                     success: function (data) {
                         if (data.isSuccess) {
                             Swal.fire({
                                 position: 'top-end',
                                 icon: 'success',
-                                title: 'Your work has been saved',
+                                title: 'Kategori Başarıyla Eklendi.',
                                 showConfirmButton: false,
                                 timer: 1500
-                            },
+                            })
                                 setTimeout(function () {
-                                    window.location.href = "/Article/Index"
+                                    window.location.href = "/Category/Index"
 
                                 }, 1500)
-                            )
+                            
                         }
                         else {
 
                             swal.fire(
                                 'Error!',
-                                'Your file has not been added',
+                                'Kategori Eklenirken Bir Hata Oluştu',
                                 'error'
                             )
 
@@ -77,7 +75,7 @@ $(document).ready(function () {
                     }
                 });
 
-            }          
+            }
 
 
         });

@@ -5,6 +5,12 @@
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
 }
 
+@section styles
+{
+	<link href="~/admin/plugins/select2/css/select2.min.css" rel="stylesheet" />
+	<link href="~/admin/plugins/sweetalert2/sweetalert2.min.css" rel="stylesheet" />
+}
+
 <div class="card card-primary">
     <div class="card-header">
         <h3 class="card-title">Kategori Güncelle</h3>
@@ -23,18 +29,20 @@
 
 
 
-    <form asp-controller="Category" asp-action="CategoryUpdate" method="post">
+    <form>
 
         <div class="card-body">        
 
 
             <div class="form-group">                
 
+                
+                <input asp-for="ID" id="CategoryID" style="display:none;" type="text" readonly>
 
-                <label asp-for="Name">Kategori Adı</label>
-                <input asp-for="Name" type="text" class="form-control" placeholder="Lütfen Geçerli Bir Makale Adı Giriniz...">             
 
 
+                <label asp-for="Name" >Kategori Adı</label>
+                <input asp-for="Name" id="CategoryName" type="text" class="form-control" placeholder="Lütfen Geçerli Bir Makale Adı Giriniz...">
 
 
             </div>
@@ -43,12 +51,22 @@
         <div class="row">
             <div class="col-12">
                 <a href="/Category/Index" class="btn btn-secondary">İptal</a>
-                <input type="submit" value="Güncelle" class="btn btn-success float-right">
+                <input type="submit" id="CategoryUpdate" value="Güncelle" class="btn btn-success float-right">
             </div>
         </div>
 
     </form>
 
 </div>
+
+@section scripts
+{
+
+	<script src="~/js/categoryupdatewarning.js"></script>
+	<script src="~/admin/plugins/select2/js/select2.min.js"></script>
+    <script src="~/admin/plugins/sweetalert2/sweetalert2.min.js"></script>
+
+
+}
 
 

@@ -88,35 +88,40 @@ namespace MyBlogProject_Frontend.Areas.Admin.Controllers
 
 
         [HttpPost]
-        public IActionResult Add(CategoryAddDto categoryAddDto) 
+        public IActionResult Add([FromBody] CategoryAddDto categoryAddDto) 
         {
             HttpClient client = new HttpClient();
             client.BaseAddress = new Uri("https://localhost:7147/api/Category");
             string jsonString = JsonConvert.SerializeObject(categoryAddDto);
             StringContent content = new StringContent(jsonString, Encoding.UTF8, "application/json");
 
-            HttpResponseMessage msg = client.PostAsync(client.BaseAddress,content).Result;       
+            HttpResponseMessage msg = client.PostAsync(client.BaseAddress, content).Result;
 
-          
+            if (msg.StatusCode == System.Net.HttpStatusCode.OK)
+            {
+                return Json(new { isSuccess = true });
+            }
 
 
-            return RedirectToAction("Index", "Category");            
+
+
+            return Json(new { isSuccess = false});
 
         }
 
         [HttpPost]
         public IActionResult AddWithAjax([FromBody]CategoryAddDto categoryAddDto)
         {
-            //HttpClient client = new HttpClient();
-            //client.BaseAddress = new Uri("https://localhost:7147/api/Category");
-            //string jsonString = JsonConvert.SerializeObject(categoryAddDto);
-            //StringContent content = new StringContent(jsonString, Encoding.UTF8, "application/json");
-            //HttpResponseMessage msg = client.PostAsync(client.BaseAddress, content).Result;
+            HttpClient client = new HttpClient();
+            client.BaseAddress = new Uri("https://localhost:7147/api/Category");
+            string jsonString = JsonConvert.SerializeObject(categoryAddDto);
+            StringContent content = new StringContent(jsonString, Encoding.UTF8, "application/json");
+            HttpResponseMessage msg = client.PostAsync(client.BaseAddress, content).Result;
 
-            //if (msg.StatusCode == HttpStatusCode.Created)
-            //{
-            //    return Json(new { isSuccess = true, Message = "Ürün başarıyla kaydedildi" });
-            //}
+            if (msg.StatusCode == System.Net.HttpStatusCode.OK)
+            {
+                return Json(new { isSuccess = true, Message = "Ürün başarıyla kaydedildi" });
+            }
 
             return Json(new { isSuccess = false });            
 
@@ -147,7 +152,7 @@ namespace MyBlogProject_Frontend.Areas.Admin.Controllers
 
 
         [HttpPost]
-        public IActionResult CategoryUpdate(CategoryUpdateDto categoryUpdateDto)
+        public IActionResult CategoryUpdate([FromBody] CategoryUpdateDto categoryUpdateDto)
         {
             HttpClient client = new HttpClient();
             client.BaseAddress = new Uri("https://localhost:7147/api/Category");
@@ -157,12 +162,18 @@ namespace MyBlogProject_Frontend.Areas.Admin.Controllers
 
             HttpResponseMessage msg = client.PutAsync(client.BaseAddress, content).Result;
 
-            return RedirectToAction("Index", "Category");
+            if(msg.StatusCode == System.Net.HttpStatusCode.OK)
+            {
+                return Json(new { isSuccess = true });
+            }
+
+            return Json(new { isSuccess = false });
+
+          
 
         }
 
         [HttpGet]
-
         public IActionResult Details(int id)
         {
             CategoryAddDto categoryAddDto = new CategoryAddDto();

@@ -4,6 +4,7 @@ $(document).ready(function () {
 
         var formdata =
         {
+            
             Title: $("#ArticleName").val(),
             Content: $("#defaultFormControlInput").val(),
             CategoryId: $("#CategoryID").val()
@@ -35,22 +36,16 @@ $(document).ready(function () {
                 clearInterval(timerInterval)
             }
         }).then((result) => {
-            /* Read more about handling dismissals below */
+           
             if (result.dismiss === Swal.DismissReason.timer) {
-                /* console.log('I was closed by the timer') */
+              
                 $.ajax({
 
                     url: "/Article/Add",
                     type: "Post",
                     contentType: 'application/json',
                     dataType: 'json',
-                    data: JSON.stringify(formdata),
-
-                    //url: "/Article/Index",
-                    //type: "Post",
-                    //contentType: "application/json; charset=utf-8",
-                    //dataType: "json",
-                    //data: formdata,
+                    data: JSON.stringify(formdata),                    
 
                     success: function (data) {
                         if (data.isSuccess) {

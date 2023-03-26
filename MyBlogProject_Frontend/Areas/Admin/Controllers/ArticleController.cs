@@ -58,7 +58,7 @@ namespace MyBlogProject_Frontend.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        public IActionResult Add([FromBody] ArticleAddDto articleAddDto)
+        public IActionResult Add(ArticleAddDto articleAddDto)
         {
 
             articleAddDto.ImageId = 2;
@@ -115,7 +115,7 @@ namespace MyBlogProject_Frontend.Areas.Admin.Controllers
 
 
         [HttpPost]
-        public IActionResult Update(ArticleUpdateDto articleUpdateDto)
+        public IActionResult Update([FromBody] ArticleUpdateDto articleUpdateDto)
         {
             articleUpdateDto.ImageId = 2;
             HttpClient client = new HttpClient();
@@ -124,7 +124,13 @@ namespace MyBlogProject_Frontend.Areas.Admin.Controllers
             string JsonString = JsonConvert.SerializeObject(articleUpdateDto);
             StringContent content = new StringContent(JsonString, Encoding.UTF8, "application/json");
             HttpResponseMessage msg = client.PutAsync(client.BaseAddress, content).Result;
-            return RedirectToAction("Index", "Article"); 
+            if(msg.StatusCode== System.Net.HttpStatusCode.OK)
+            {
+				return Json(new { isSuccess = true });
+			}
+
+            return Json(new {isSuccess = false });
+            
            
         }
 

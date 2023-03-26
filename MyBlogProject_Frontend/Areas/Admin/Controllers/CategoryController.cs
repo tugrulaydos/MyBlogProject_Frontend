@@ -107,16 +107,16 @@ namespace MyBlogProject_Frontend.Areas.Admin.Controllers
         [HttpPost]
         public IActionResult AddWithAjax([FromBody]CategoryAddDto categoryAddDto)
         {
-            HttpClient client = new HttpClient();
-            client.BaseAddress = new Uri("https://localhost:7147/api/Category");
-            string jsonString = JsonConvert.SerializeObject(categoryAddDto);
-            StringContent content = new StringContent(jsonString, Encoding.UTF8, "application/json");
-            HttpResponseMessage msg = client.PostAsync(client.BaseAddress, content).Result;
+            //HttpClient client = new HttpClient();
+            //client.BaseAddress = new Uri("https://localhost:7147/api/Category");
+            //string jsonString = JsonConvert.SerializeObject(categoryAddDto);
+            //StringContent content = new StringContent(jsonString, Encoding.UTF8, "application/json");
+            //HttpResponseMessage msg = client.PostAsync(client.BaseAddress, content).Result;
 
-            if (msg.StatusCode == HttpStatusCode.Created)
-            {
-                return Json(new { isSuccess = true, Message = "Ürün başarıyla kaydedildi" });
-            }
+            //if (msg.StatusCode == HttpStatusCode.Created)
+            //{
+            //    return Json(new { isSuccess = true, Message = "Ürün başarıyla kaydedildi" });
+            //}
 
             return Json(new { isSuccess = false });            
 

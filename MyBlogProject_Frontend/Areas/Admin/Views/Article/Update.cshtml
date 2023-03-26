@@ -5,14 +5,19 @@
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
 }
 
+@section styles
+{
+	<link href="~/admin/plugins/select2/css/select2.min.css" rel="stylesheet" />
+	<link href="~/admin/plugins/sweetalert2/sweetalert2.min.css" rel="stylesheet" />
+
+}
+
 
 <div class="card card-primary">
     <div class="card-header">
         <h3 class="card-title">Makale Güncelle</h3>
         <div class="card-tools">
             <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
-
-
 
                 <i class="fas fa-minus">
 
@@ -24,24 +29,25 @@
 
 
 
-    <form asp-controller="Article" asp-action="Update" method="post">
+    <form>
 
         <div class="card-body">
 
 
             <div class="form-group">
+              
 
-
+                <label asp-for="ID" style="display:none;">ID</label>
+                <input asp-for="ID" style="display:none;" type="text" id="ArticleID" class="form-control" readonly>
+                
                 <label asp-for="CategoryId">Kategori</label>
-                <select class="form-control" asp-for="CategoryId" asp-items="@(new SelectList(Model.Categories,"ID","Name"))"></select>
+                <select class="form-control" asp-for="CategoryId" id="ArticleCategoryID" asp-items="@(new SelectList(Model.Categories,"ID","Name"))"></select>
 
-                <label asp-for="Title">Kategori Adı</label>
-                <input asp-for="Title" type="text" class="form-control" placeholder="Lütfen Geçerli Bir Makale Adı Giriniz...">
+                <label asp-for="Title">Başlık</label>
+                <input asp-for="Title" type="text" class="form-control" id="ArticleTitle" placeholder="Lütfen Geçerli Bir Makale Adı Giriniz...">
 
                 <label asp-for="Content">İçerik</label>
-                <textarea asp-for="Content" type="text" class="form-control mb-3" id="defaultFormControlInput" style="min-height:300px;" placeholder="Lütfen İçerik Giriniz." aria-describedby="defaultFormControlHelp"></textarea>
-                         
-
+                <textarea asp-for="Content" id="ArticleContent" type="text" class="form-control mb-3" id="defaultFormControlInput" style="min-height:300px;" placeholder="Lütfen İçerik Giriniz." aria-describedby="defaultFormControlHelp"></textarea>              
 
 
 
@@ -50,14 +56,26 @@
 
         <div class="row">
             <div class="col-12">
-                <a href="/Article/Index" class="btn btn-secondary">İptal</a>
-                <input type="submit" value="Güncelle" class="btn btn-success float-right">
+                <a href="/Article/Index" class="btn btn-secondary">Geri Dön</a>
+                <input type="submit" value="Güncelle" id="UpdateButon" class="btn btn-success float-right">
             </div>
         </div>
 
     </form>
 
 </div>
+
+
+@section Scripts
+{
+
+	<script src="~/js/articleupdatewarning.js"></script>
+
+	<script src="~/admin/plugins/sweetalert2/sweetalert2.min.js"></script>
+
+	<script src="~/admin/plugins/select2/js/select2.min.js"></script>
+
+}
 
 
 

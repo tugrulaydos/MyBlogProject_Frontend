@@ -6,11 +6,19 @@ using MyBlogProject_Frontend.Areas.Admin.Models.DTOs.Category;
 using Newtonsoft.Json;
 using System.Text;
 
+
 namespace MyBlogProject_Frontend.Areas.Admin.Controllers
 {
     [Area("admin")]
     public class ArticleController : Controller
     {
+        private readonly IWebHostEnvironment _webHostEnvironment;
+
+        public ArticleController(IWebHostEnvironment webHostEnvironment)
+        {
+            this._webHostEnvironment= webHostEnvironment;
+
+        }
         public IActionResult Index() 
         {
 
@@ -60,12 +68,47 @@ namespace MyBlogProject_Frontend.Areas.Admin.Controllers
         [HttpPost]
         public IActionResult Add(ArticleAddDto articleAddDto)
         {
+			#region Photo Transactions
+			var file = articleAddDto.ArticlePhoto;
+
+            var fileName = Path.GetFileName(file.FileName);
+            var fileExtension = Path.GetExtension(fileName);
+
+            //Unique ID
+            var uniqueFileName = Guid.NewGuid().ToString() + fileExtension;
+
+            //Resmin Kaydedileceği Yolu Ayarla
+            var uploadsDirectory = Path.Combine(_webHostEnvironment.WebRootPath,"ArticlePhotos");
+            var filePath = Path.Combine(uploadsDirectory,uniqueFileName);
+
+            //if There is no folder, Create it
+            if (!Directory.Exists(filePath))
+            {
+                Directory.CreateDirectory(uploadsDirectory);
+            }
+
+            //Save the Directory to the disk
+            using(var stream = new FileStream(filePath, FileMode.Create))
+            {
+                file.CopyToAsync(stream);
+            }
+
+
+            articleAddDto.PhotoPath = uniqueFileName;
+
+            #endregion
+
 
             articleAddDto.ImageId = 2;
+
             HttpClient client = new HttpClient();
+
             client.BaseAddress = new Uri("https://localhost:7147/api/Article");
+
             string jsonString = JsonConvert.SerializeObject(articleAddDto);
+
             StringContent content = new StringContent(jsonString, Encoding.UTF8, "application/json");
+
             HttpResponseMessage msg = client.PostAsync(client.BaseAddress, content).Result;
 
             if (msg.StatusCode == System.Net.HttpStatusCode.OK)

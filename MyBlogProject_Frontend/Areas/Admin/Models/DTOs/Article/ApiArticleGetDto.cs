@@ -17,7 +17,10 @@ namespace MyBlogProject_Frontend.Areas.Admin.Models.DTOs
 
         public string Content { get; set; }
 
+        public string? PhotoPath { get; set; }
+
         public CategoryDto Category { get; set; }
+
         public int CategoryId { get; set; }        
 
     }

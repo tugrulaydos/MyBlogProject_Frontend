@@ -10,11 +10,12 @@ namespace MyBlogProject_Frontend.Areas.Admin.Models.DTOs.Article
 
         public int ImageId { get; set; }
 
-        public IList<CategoryDto> Categories { get; set; }
-        //public IFormFile Photo { get; set; }
+        public string? PhotoPath { get; set; }
 
+        public IFormFile ArticlePhoto { get; set; }
 
-        
+        public IList<CategoryDto> Categories { get; set; }  
+                
 
     }
 }

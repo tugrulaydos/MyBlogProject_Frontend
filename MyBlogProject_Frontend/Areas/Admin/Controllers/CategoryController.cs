@@ -2,7 +2,7 @@
 using MyBlogProject_Frontend.Areas.Admin.Models.DTOs;
 using MyBlogProject_Frontend.Areas.Admin.Models.DTOs.Article;
 using MyBlogProject_Frontend.Areas.Admin.Models.DTOs.Category;
-using MyBlogProject_Frontend.Areas.Admin.Models.ViewModels;
+
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using NuGet.Configuration;
@@ -20,7 +20,8 @@ namespace MyBlogProject_Frontend.Areas.Admin.Controllers
         public IActionResult Index()
         {
 
-            CategoryIndexVM vm = new CategoryIndexVM();
+            List<ApiCategoryGetDto> CategoryList = new();
+           
 
             HttpClient Categoryclient = new HttpClient();
             Categoryclient.BaseAddress = new Uri("https://localhost:7147/api/Category");
@@ -37,28 +38,11 @@ namespace MyBlogProject_Frontend.Areas.Admin.Controllers
                     MissingMemberHandling = MissingMemberHandling.Ignore,
                 };
 
-                vm.Categories = JsonConvert.DeserializeObject<List<ApiCategoryGetDto>>(jsonString,settings);
+                CategoryList = JsonConvert.DeserializeObject<List<ApiCategoryGetDto>>(jsonString,settings);
             }
 
 
-            HttpClient ArticleClient = new HttpClient();
-            ArticleClient.BaseAddress = new Uri("https://localhost:7147/api/Article");
-
-            HttpResponseMessage msg2 = ArticleClient.GetAsync(ArticleClient.BaseAddress).Result;
-
-            if(msg2.StatusCode==System.Net.HttpStatusCode.OK)
-            {
-                string jsonString = msg2.Content.ReadAsStringAsync().Result;
-                var settings = new JsonSerializerSettings
-                {
-                    NullValueHandling = NullValueHandling.Ignore,
-                    MissingMemberHandling = MissingMemberHandling.Ignore,
-                };
-
-                vm.Articles = JsonConvert.DeserializeObject<List<ApiArticleGetDto>>(jsonString,settings);               
-            }
-
-            return View(vm);
+            return View(CategoryList);
             
         }
         
@@ -194,6 +178,32 @@ namespace MyBlogProject_Frontend.Areas.Admin.Controllers
 
 
         }
+
+        public IActionResult DeletedCategory() 
+        {
+			List<ApiCategoryGetDto> CategoryList = new();
+
+			HttpClient Categoryclient = new HttpClient();
+			Categoryclient.BaseAddress = new Uri("https://localhost:7147/api/Category");
+
+			HttpResponseMessage msg = Categoryclient.GetAsync(Categoryclient.BaseAddress).Result;
+
+			if (msg.StatusCode == System.Net.HttpStatusCode.OK)
+			{
+				string jsonString = msg.Content.ReadAsStringAsync().Result;
+
+				var settings = new JsonSerializerSettings
+				{
+					NullValueHandling = NullValueHandling.Ignore,
+					MissingMemberHandling = MissingMemberHandling.Ignore,
+				};
+
+				CategoryList = JsonConvert.DeserializeObject<List<ApiCategoryGetDto>>(jsonString, settings);
+			}
+
+			return View(CategoryList);
+
+		}
 
 
     }

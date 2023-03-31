@@ -216,6 +216,35 @@ namespace MyBlogProject_Frontend.Areas.Admin.Controllers
 
 		}
 
+        public IActionResult DeletedArticles() 
+        {
+			List<ApiArticleGetDto> Listdto = new();
+
+			HttpClient client = new HttpClient();
+			client.BaseAddress = new Uri("https://localhost:7147/api/Article");
+
+
+
+			HttpResponseMessage msg = client.GetAsync(client.BaseAddress).Result;
+
+			if (msg.StatusCode == System.Net.HttpStatusCode.OK)
+			{
+				string jsonString = msg.Content.ReadAsStringAsync().Result;
+
+				var settings = new JsonSerializerSettings
+				{
+					NullValueHandling = NullValueHandling.Ignore,
+					MissingMemberHandling = MissingMemberHandling.Ignore,
+				};
+
+
+				Listdto = JsonConvert.DeserializeObject<List<ApiArticleGetDto>>(jsonString, settings);
+			}
+
+			return View(Listdto);
+
+		}
+
 
 
     }

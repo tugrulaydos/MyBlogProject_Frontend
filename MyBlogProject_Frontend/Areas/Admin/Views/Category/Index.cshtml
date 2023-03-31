@@ -1,22 +1,19 @@
-﻿
-@model CategoryIndexVM
+﻿@model List<ApiCategoryGetDto>
 
 
 @{
 	Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
 }
 
-@section styles{	
+@section styles{
 
 	<link rel="stylesheet" href="/Admin/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
 	<link rel="stylesheet" href="/Admin/plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
 	<link rel="stylesheet" href="/Admin/plugins/datatables-buttons/css/buttons.bootstrap4.min.css">
 
 	<link href="~/admin/plugins/select2/css/select2.min.css" rel="stylesheet" />
-	@*<link href="~/admin/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css" rel="stylesheet" />*@
 
-	@*<link href="~/admin/plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css" rel="stylesheet" />*@
-    <link href="~/admin/plugins/sweetalert2/sweetalert2.min.css" rel="stylesheet" />
+	<link href="~/admin/plugins/sweetalert2/sweetalert2.min.css" rel="stylesheet" />
 }
 
 
@@ -27,18 +24,19 @@
 <table class="table" id="tblCategories">
 
 	<thead>
-		<th>ID</th>
-		<th>NAME</th>
-	    <th>OLUŞTURULMA TARİHİ</th>
-	    <th>GÜNCELLENME TARİHİ</th>
-	    <th>SİLİNME TARİHİ</th>
-    	<th>GÜNCELLE</th>
-		<th>SİL</th>		
-		<th>DETAY</th>
+		<tr>
+			<th>ID</th>
+			<th>NAME</th>
+			<th>OLUŞTURULMA TARİHİ</th>
+			<th>GÜNCELLENME TARİHİ</th>
+			<th>GÜNCELLE</th>
+			<th>SİL</th>
+			<th>DETAY</th>
+		</tr>
 	</thead>
 
 	<tbody>
-		@foreach(var item in Model.Categories)
+		@foreach (var item in Model)
 		{
 			@if (!item.IsDeleted)
 			{
@@ -46,11 +44,21 @@
 					<td>@item.ID</td>
 					<td>@item.Name</td>
 					<td>@item.CreatedDate</td>
-					<td>@item.DeletedDate</td>
-					<td>@item.ModifiedDate</td>
-					<td><a href="/Category/CategoryUpdate/@item.ID" class="btn btn-primary"><i class='bx bx-up-arrow-alt'></i>Güncelle</a></td>
-					<td><button type="button" class="btn btn-danger DeleteCategory" span="@item.ID"><i class='bx bx-message-alt-x'></i>Sil</button></td>
-					<td><a href="/Category/Details/@item.ID" class="btn btn-warning"><i class='bx bxs-detail'></i>Detay</a></td>
+
+					@if (item.ModifiedDate.Hour + item.ModifiedDate.Minute + item.ModifiedDate.Second + item.ModifiedDate.Millisecond + item.ModifiedDate.Ticks == 0)
+					{
+						<td>Güncelleme Yok</td>
+					}
+					else
+					{
+						<td>@item.ModifiedDate</td>
+					}
+
+
+
+					<td><a href="/Category/CategoryUpdate/@item.ID" class="btn btn-primary"><i class='bx bx-up-arrow-alt'></i></a></td>
+					<td><button type="button" class="btn btn-danger DeleteCategory" span="@item.ID"><i class='bx bx-message-square-x'></i>  </button></td>
+					<td><a href="/Category/Details/@item.ID" class="btn btn-warning"> <i class='bx bx-detail'></i> </a></td>
 				</tr>
 			}
 		}
@@ -84,5 +92,5 @@
 
 	<script src="~/js/CategoryIndex.js"></script>
 
-	
+
 }

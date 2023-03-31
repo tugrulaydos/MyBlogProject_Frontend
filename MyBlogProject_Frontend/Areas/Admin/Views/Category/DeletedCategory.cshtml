@@ -1,43 +1,38 @@
-﻿@model List<ApiArticleGetDto>
+﻿@model List<ApiCategoryGetDto>
 
 @{
-	ViewData["Title"] = "Index";
+	ViewData["Title"] = "DeletedCategory";
 	Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
 }
 
-@section styles{
 
+
+@section styles{
 
 	<link rel="stylesheet" href="/Admin/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
 	<link rel="stylesheet" href="/Admin/plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
 	<link rel="stylesheet" href="/Admin/plugins/datatables-buttons/css/buttons.bootstrap4.min.css">
 
-
 	<link href="~/admin/plugins/select2/css/select2.min.css" rel="stylesheet" />
 
-
-
 	<link href="~/admin/plugins/sweetalert2/sweetalert2.min.css" rel="stylesheet" />
-
-
-	<link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
-
 }
 
 
 
-<a class="btn btn-success mb-3" asp-area="Admin" asp-controller="Article" asp-action="Add">Makale Ekle<i class="bx bx-plus"></i></a>
 
-<table class="table" id="tblArticles">
+
+
+<table class="table" id="tblDeletedCategories">
+
 	<thead>
-
 		<tr>
 			<th>ID</th>
-			<th>BAŞLIK</th>
+			<th>NAME</th>
 			<th>OLUŞTURULMA TARİHİ</th>
 			<th>GÜNCELLENME TARİHİ</th>
-
-			<th>GÜNCELLE </th>
+			<th>SİLİNME TARİHİ</th>
+			<th>KURTAR</th>
 			<th>SİL</th>
 			<th>DETAY</th>
 		</tr>
@@ -46,13 +41,12 @@
 	<tbody>
 		@foreach (var item in Model)
 		{
-			@if (item.IsDeleted == false)
+			@if (item.IsDeleted)
 			{
 				<tr>
 					<td>@item.ID</td>
-					<td>@item.Title</td>
-					<td>@(item.CreatedDate)</td>
-
+					<td>@item.Name</td>
+					<td>@item.CreatedDate</td>
 					@if (item.ModifiedDate.Hour + item.ModifiedDate.Minute + item.ModifiedDate.Second + item.ModifiedDate.Millisecond + item.ModifiedDate.Ticks == 0)
 					{
 						<td>Güncelleme Yok</td>
@@ -62,18 +56,15 @@
 						<td>@item.ModifiedDate</td>
 					}
 
+					<td>@item.DeletedDate</td>
 
-					<td><a href="/Article/Update/@item.ID" class="btn btn-primary"><i class='bx bx-up-arrow-alt'></i></a></td>
-
-					<td><button type="button" class="btn btn-danger DeleteArticle" span="@item.ID"><i class='bx bx-message-square-x'></i></button></td>
-					<td><a href="/Article/Details/@item.ID" class="btn btn-warning"><i class='bx bx-detail'></i></a></td>
-
+					<td><a href="/Category/CategoryUpdate/@item.ID" class="btn btn-primary"><i class='bx bx-save'></i></a></td>
+					<td><button type="button" class="btn btn-danger DeleteCategory" span="@item.ID"><i class='bx bx-message-square-x'></i></button></td>
+					<td><a href="/Category/Details/@item.ID" class="btn btn-warning"><i class='bx bx-detail'></i></a></td>
 				</tr>
 			}
 		}
-
 	</tbody>
-
 </table>
 
 
@@ -94,11 +85,12 @@
 	<script src="/Admin/plugins/datatables-buttons/js/buttons.print.min.js"></script>
 	<script src="/Admin/plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
 
-	<script src="~/js/articledeletealert.js"></script>
+	<script src="~/js/deletedcategoriesdatatable.js"></script>
 
-	<script src="~/admin/plugins/select2/js/select2.full.min.js"></script>
+	<script src="~/admin/plugins/select2/js/select2.min.js"></script>
+
 	<script src="~/admin/plugins/sweetalert2/sweetalert2.min.js"></script>
-	<script src="~/js/ArticleIndex.js"></script>
+
 
 }
 

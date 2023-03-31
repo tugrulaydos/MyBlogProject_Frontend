@@ -58,7 +58,7 @@ $(document).ready(function () {
                             Swal.fire({
                                 position: 'top-end',
                                 icon: 'success',
-                                title: 'Your work has been saved',
+                                title: 'Makale Başarıyla Eklendi.',
                                 showConfirmButton: false,
                                 timer: 1500
                             },
@@ -72,7 +72,7 @@ $(document).ready(function () {
 
                             swal.fire(
                                 'Error!',
-                                'Your file has not been added',
+                                'Makale Eklenirken Bir Hata Oluştu.',
                                 'error'
                             )
 
@@ -91,6 +91,7 @@ $(document).ready(function () {
     });
 
 });
+
 
 
 

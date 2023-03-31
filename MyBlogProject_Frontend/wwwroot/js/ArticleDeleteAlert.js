@@ -2,19 +2,20 @@
 $(document).ready(function () {
     $(".DeleteArticle").click(function (e) {
 
-        
-        const dataId = $(this).attr("span"); 
+
+        const dataId = $(this).attr("span");
 
         e.preventDefault();
 
         Swal.fire({
-            title: 'Are you sure?',
-            text: "You won't be able to revert this!",
+            title: 'Emin Misiniz?',
+            text: "Bu işlemi Geri Alamazsınız!",
             icon: 'warning',
             showCancelButton: true,
             confirmButtonColor: '#3085d6',
             cancelButtonColor: '#d33',
-            confirmButtonText: 'Yes, delete it!'
+            confirmButtonText: 'Evet, Sil!',
+            cancelButtonText: "İptal",
         }).then((result) => {
             if (result.isConfirmed) {
                 $.ajax({
@@ -27,7 +28,7 @@ $(document).ready(function () {
                         if (response.isSuccess) {
                             Swal.fire(
                                 'Deleted!',
-                                'Your file has been deleted.',
+                                'Makale Başarıyla Silindi.',
                                 'success'
                             )
                             setTimeout(function () {
@@ -38,7 +39,7 @@ $(document).ready(function () {
                         else {
                             Swal.fire(
                                 'Deleted!',
-                                'Your file has not been deleted.',
+                                'Makale Silinirken Bir Hata Oluştu!',
                                 'error'
                             )
                         }
@@ -51,8 +52,8 @@ $(document).ready(function () {
                 });
 
             }
-        });   
-        
+        });
+
 
     });
 

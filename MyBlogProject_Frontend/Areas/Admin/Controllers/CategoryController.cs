@@ -65,15 +65,15 @@ namespace MyBlogProject_Frontend.Areas.Admin.Controllers
         public IActionResult Delete([FromBody]int Id)
         {
             HttpClient client = new HttpClient();
-            client.BaseAddress = new Uri("https://localhost:7147/api/Category/SoftDelete?Id="+Id);
+            client.BaseAddress = new Uri("https://localhost:7147/api/Category/SoftDelete?Id=" + Id);
             string jsonContent = JsonConvert.SerializeObject(Id);
             StringContent content = new StringContent(jsonContent, Encoding.UTF8, "application/json");
-            //HttpResponseMessage msg = client.PostAsync(client.BaseAddress, content).Result;
+           
 
-			HttpResponseMessage msg = client.DeleteAsync(client.BaseAddress).Result;
+            HttpResponseMessage msg = client.DeleteAsync(client.BaseAddress).Result;
             if (msg.StatusCode == System.Net.HttpStatusCode.OK)
             {
-                return Json(new {isSuccess= true});
+                return Json(new { isSuccess = true });
 
             }
             return Json(new {isSuccess= false});		

@@ -180,22 +180,21 @@ namespace MyBlogProject_Frontend.Areas.Admin.Controllers
         
         public IActionResult Delete([FromBody]int id)
         {
-			HttpClient client = new HttpClient();
-			client.BaseAddress = new Uri("https://localhost:7147/api/Article/SoftDelete?Id=" + id);
-			string jsonContent = JsonConvert.SerializeObject(id);
-			StringContent content = new StringContent(jsonContent, Encoding.UTF8, "application/json");
-			//HttpResponseMessage msg = client.PostAsync(client.BaseAddress, content).Result;
+            HttpClient client = new HttpClient();
+            client.BaseAddress = new Uri("https://localhost:7147/api/Article/SoftDelete?Id=" + id);
+            string jsonContent = JsonConvert.SerializeObject(id);
+            StringContent content = new StringContent(jsonContent, Encoding.UTF8, "application/json");
+           
 
-			HttpResponseMessage msg = client.DeleteAsync(client.BaseAddress).Result;
+            HttpResponseMessage msg = client.DeleteAsync(client.BaseAddress).Result;
 
-            //return RedirectToAction("Index", "Article");
 
             if (msg.StatusCode == System.Net.HttpStatusCode.OK)
                 return Json(new { isSuccess = true });
 
             return Json(new { isSuccess = false });
 
-		}
+        }
 
         public IActionResult Details(int id)
         {

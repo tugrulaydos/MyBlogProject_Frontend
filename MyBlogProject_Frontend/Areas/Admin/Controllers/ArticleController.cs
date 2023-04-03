@@ -4,18 +4,22 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 using MyBlogProject_Frontend.Areas.Admin.Models.DTOs;
 using MyBlogProject_Frontend.Areas.Admin.Models.DTOs.Article;
 using MyBlogProject_Frontend.Areas.Admin.Models.DTOs.Category;
+
 using Newtonsoft.Json;
 using System.Text;
 
 
 namespace MyBlogProject_Frontend.Areas.Admin.Controllers
 {
+    
+
     [Area("admin")]
     public class ArticleController : Controller
     {
         private readonly IWebHostEnvironment _webHostEnvironment;
+	
 
-        public ArticleController(IWebHostEnvironment webHostEnvironment)
+		public ArticleController(IWebHostEnvironment webHostEnvironment)
         {
             this._webHostEnvironment= webHostEnvironment;
 
@@ -23,7 +27,7 @@ namespace MyBlogProject_Frontend.Areas.Admin.Controllers
         public IActionResult Index() 
         {
 
-            List<ApiArticleGetDto> Listdto = new();
+            List<ApiArticleGetDto> ListDto = new();            
 
             HttpClient client = new HttpClient();
             client.BaseAddress = new Uri("https://localhost:7147/api/Article");
@@ -43,10 +47,10 @@ namespace MyBlogProject_Frontend.Areas.Admin.Controllers
                 };
                 
 
-                Listdto = JsonConvert.DeserializeObject<List<ApiArticleGetDto>>(jsonString,settings);
+                ListDto = JsonConvert.DeserializeObject<List<ApiArticleGetDto>>(jsonString,settings);
             }
 
-            return View(Listdto);
+            return View(ListDto);
         }
 
 
@@ -203,6 +207,8 @@ namespace MyBlogProject_Frontend.Areas.Admin.Controllers
 
         public IActionResult Details(int id)
         {
+		
+
 			ApiArticleGetDto articleGetDto = new ApiArticleGetDto();
 
 			HttpClient client = new HttpClient();
@@ -245,8 +251,24 @@ namespace MyBlogProject_Frontend.Areas.Admin.Controllers
 
 				Listdto = JsonConvert.DeserializeObject<List<ApiArticleGetDto>>(jsonString, settings);
 			}
-
 			return View(Listdto);
+		}
+
+       
+        public IActionResult Save(int id) 
+        {
+            var patchDoc = new JsonPatchDocument<ArticleSoftDeleteDto>();
+            patchDoc.Replace(e => e.IsDeleted, false);
+
+
+            HttpClient client = new HttpClient();
+            client.BaseAddress = new Uri("https://localhost:7147/api/Article/Save?id=" + id);
+            string jsonContent = JsonConvert.SerializeObject(patchDoc);
+            StringContent content = new StringContent(jsonContent, Encoding.UTF8, "application/json-patch+json");
+            HttpResponseMessage msg = client.PatchAsync(client.BaseAddress, content).Result;
+
+            return RedirectToAction("DeletedArticles", "Article");
+
 
 		}
 

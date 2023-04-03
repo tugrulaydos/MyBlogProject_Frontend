@@ -20,6 +20,8 @@
 
   <ItemGroup>
     <Folder Include="Areas\Admin\Data\" />
+    <Folder Include="Areas\Admin\Models\ViewModels\ArticleViewModels\" />
+    <Folder Include="Areas\Admin\Models\ViewModels\CategoryViewModels\" />
   </ItemGroup>
 
 </Project>

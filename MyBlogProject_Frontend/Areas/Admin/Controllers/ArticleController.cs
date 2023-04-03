@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.JsonPatch;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using MyBlogProject_Frontend.Areas.Admin.Models.DTOs;
 using MyBlogProject_Frontend.Areas.Admin.Models.DTOs.Article;
@@ -179,15 +180,19 @@ namespace MyBlogProject_Frontend.Areas.Admin.Controllers
 
         
         public IActionResult Delete([FromBody]int id)
-        {
-            HttpClient client = new HttpClient();
-            client.BaseAddress = new Uri("https://localhost:7147/api/Article/SoftDelete?Id=" + id);
-            string jsonContent = JsonConvert.SerializeObject(id);
-            StringContent content = new StringContent(jsonContent, Encoding.UTF8, "application/json");
-           
+        {            
 
-            HttpResponseMessage msg = client.DeleteAsync(client.BaseAddress).Result;
+            var patchDoc = new JsonPatchDocument<ArticleSoftDeleteDto>();
+            patchDoc.Replace(e => e.IsDeleted, true);
 
+            
+
+            HttpClient client= new HttpClient();
+            client.BaseAddress = new Uri("https://localhost:7147/api/Article/SoftDelete2?id="+id);
+            string jsonContent = JsonConvert.SerializeObject(patchDoc);
+            StringContent content = new StringContent(jsonContent, Encoding.UTF8, "application/json-patch+json");
+
+            HttpResponseMessage msg = client.PatchAsync(client.BaseAddress, content).Result;
 
             if (msg.StatusCode == System.Net.HttpStatusCode.OK)
                 return Json(new { isSuccess = true });

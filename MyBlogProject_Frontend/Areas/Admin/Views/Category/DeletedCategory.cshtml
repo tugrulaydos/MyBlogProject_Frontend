@@ -58,8 +58,8 @@
 
 					<td>@item.DeletedDate</td>
 
-					<td><a href="/Category/CategoryUpdate/@item.ID" class="btn btn-primary"><i class='bx bx-save'></i></a></td>
-					<td><button type="button" class="btn btn-danger DeleteCategory" span="@item.ID"><i class='bx bx-message-square-x'></i></button></td>
+					<td><button type="button" class="btn btn-primary SavedCategory" x="@item.ID"><i class='bx bx-save'></i></button></td>
+					<td><button type="button" class="btn btn-danger DeleteCategory"><i class='bx bx-message-square-x'></i></button></td>
 					<td><a href="/Category/Details/@item.ID" class="btn btn-warning"><i class='bx bx-detail'></i></a></td>
 				</tr>
 			}
@@ -91,7 +91,7 @@
 
 	<script src="~/admin/plugins/sweetalert2/sweetalert2.min.js"></script>
 
-
+	<script src="~/js/categorysavewarning.js"></script>
 }
 
 

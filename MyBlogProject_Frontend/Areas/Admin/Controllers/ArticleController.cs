@@ -209,9 +209,8 @@ namespace MyBlogProject_Frontend.Areas.Admin.Controllers
 
         public IActionResult Details(int id)
         {
-            DetailsVM _detailsVM = new DetailsVM();		           
-
-			
+            DetailsVM _detailsVM = new DetailsVM();		        
+            			
 
 			HttpClient client = new HttpClient();
 
@@ -261,12 +260,12 @@ namespace MyBlogProject_Frontend.Areas.Admin.Controllers
        
         public IActionResult Save([FromBody] int id) 
         {
-            var patchDoc = new JsonPatchDocument<ArticleSoftDeleteDto>();
+            var patchDoc = new JsonPatchDocument<ArticleSaveDto>();
             patchDoc.Replace(e => e.IsDeleted, false);
 
 
             HttpClient client = new HttpClient();
-            client.BaseAddress = new Uri("https://localhost:7147/api/Article/Save?id=" + id);
+            client.BaseAddress = new Uri("https://localhost:7147/api/Article/Save?id="+id);
             string jsonContent = JsonConvert.SerializeObject(patchDoc);
             StringContent content = new StringContent(jsonContent, Encoding.UTF8, "application/json-patch+json");
             HttpResponseMessage msg = client.PatchAsync(client.BaseAddress, content).Result;

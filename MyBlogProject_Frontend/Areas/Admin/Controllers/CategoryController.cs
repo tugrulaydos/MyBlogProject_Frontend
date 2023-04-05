@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using MyBlogProject_Frontend.Areas.Admin.Models.DTOs;
 using MyBlogProject_Frontend.Areas.Admin.Models.DTOs.Article;
 using MyBlogProject_Frontend.Areas.Admin.Models.DTOs.Category;
-
+using MyBlogProject_Frontend.Areas.Admin.Models.ViewModels.CategoryViewModels;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using NuGet.Configuration;
@@ -17,9 +17,11 @@ namespace MyBlogProject_Frontend.Areas.Admin.Controllers
     [Area("admin")]
     public class CategoryController : Controller
     {
+		private static bool _DetailPage = false;
 
-        public IActionResult Index()
+		public IActionResult Index()
         {
+            
 
             List<ApiCategoryGetDto> CategoryList = new();
            
@@ -42,20 +44,23 @@ namespace MyBlogProject_Frontend.Areas.Admin.Controllers
                 CategoryList = JsonConvert.DeserializeObject<List<ApiCategoryGetDto>>(jsonString,settings);
             }
 
-
+            _DetailPage = true;
             return View(CategoryList);
             
         }
         
         public IActionResult Delete([FromBody]int Id)
         {
-            HttpClient client = new HttpClient();
-            client.BaseAddress = new Uri("https://localhost:7147/api/Category/SoftDelete?Id=" + Id);
-            string jsonContent = JsonConvert.SerializeObject(Id);
-            StringContent content = new StringContent(jsonContent, Encoding.UTF8, "application/json");
+			var patchDoc = new JsonPatchDocument<CategorySoftDeleteDto>();
+			patchDoc.Replace(e => e.IsDeleted, true);
+
+			HttpClient client = new HttpClient();
+            client.BaseAddress = new Uri("https://localhost:7147/api/Category/SoftDelete?Id="+Id);
+            string jsonContent = JsonConvert.SerializeObject(patchDoc);
+            StringContent content = new StringContent(jsonContent, Encoding.UTF8, "application/json-patch+json");
            
 
-            HttpResponseMessage msg = client.DeleteAsync(client.BaseAddress).Result;
+            HttpResponseMessage msg = client.PatchAsync(client.BaseAddress,content).Result;
             if (msg.StatusCode == System.Net.HttpStatusCode.OK)
             {
                 return Json(new { isSuccess = true });
@@ -161,7 +166,8 @@ namespace MyBlogProject_Frontend.Areas.Admin.Controllers
         [HttpGet]
         public IActionResult Details(int id)
         {
-            CategoryAddDto categoryAddDto = new CategoryAddDto();
+            
+            CategoryDetailsVM VM = new();
 
             HttpClient client = new HttpClient();
 
@@ -172,10 +178,12 @@ namespace MyBlogProject_Frontend.Areas.Admin.Controllers
             if (msg.StatusCode == System.Net.HttpStatusCode.OK)
             {
                 string jsonString = msg.Content.ReadAsStringAsync().Result;
-                categoryAddDto = JsonConvert.DeserializeObject<CategoryAddDto>(jsonString);
+                VM.categoryDto = JsonConvert.DeserializeObject<ApiCategoryGetDto>(jsonString);
             }
 
-            return View(categoryAddDto);
+            VM.DetailPage = _DetailPage;
+
+            return View(VM);
 
 
         }
@@ -202,6 +210,7 @@ namespace MyBlogProject_Frontend.Areas.Admin.Controllers
 				CategoryList = JsonConvert.DeserializeObject<List<ApiCategoryGetDto>>(jsonString, settings);
 			}
 
+            _DetailPage = false;
 			return View(CategoryList);
 
 		}
@@ -212,7 +221,7 @@ namespace MyBlogProject_Frontend.Areas.Admin.Controllers
 			patchDoc.Replace(e => e.IsDeleted, false);
 
 			HttpClient client = new HttpClient();
-			client.BaseAddress = new Uri("https://localhost:7147/api/Category/Save?id=" + id);
+			client.BaseAddress = new Uri("https://localhost:7147/api/Category/Save?id="+id);
 			string jsonContent = JsonConvert.SerializeObject(patchDoc);
 			StringContent content = new StringContent(jsonContent, Encoding.UTF8, "application/json-patch+json");
 			HttpResponseMessage msg = client.PatchAsync(client.BaseAddress, content).Result;

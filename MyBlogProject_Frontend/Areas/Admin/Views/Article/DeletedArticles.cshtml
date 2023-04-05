@@ -62,7 +62,7 @@
 					<td>@item.DeletedDate</td>
 
 					<td><button type="button" class="btn btn-primary SavedArticle" x="@item.ID"><i class='bx bx-save'></i></button></td>
-					<td><button type="button" class="btn btn-danger DeleteArticle"><i class='bx bx-message-square-x'></i></button></td>
+					<td><button type="button" class="btn btn-danger DeleteArticle" y="@item.ID"><i class='bx bx-message-square-x'></i></button></td>
 					<td><a href="/Article/Details/@item.ID" class="btn btn-warning"><i class='bx bx-detail'></i></a></td>
 				</tr>
 			}
@@ -96,7 +96,7 @@
 	<script src="~/admin/plugins/sweetalert2/sweetalert2.min.js"></script>
 
 	<script src="~/js/articlesavewarning.js"></script>
-
+	<script src="~/js/articleharddeletewarning.js"></script>
 }
 
 

@@ -279,6 +279,19 @@ namespace MyBlogProject_Frontend.Areas.Admin.Controllers
 		}
 
 
+        public IActionResult HardDelete([FromBody]int id) 
+        {
+            HttpClient client = new HttpClient();
+            client.BaseAddress = new Uri("https://localhost:7147/api/Article/HardDelete?id=" + id);       
+
+            HttpResponseMessage msg = client.DeleteAsync(client.BaseAddress).Result;
+
+            if (msg.StatusCode == System.Net.HttpStatusCode.OK)
+                return Json(new { isSuccess = true });
+
+            return Json(new { isSuccess = false });
+            
+        }
 
     }
 }

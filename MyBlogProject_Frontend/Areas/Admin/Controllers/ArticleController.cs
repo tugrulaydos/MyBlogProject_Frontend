@@ -4,7 +4,7 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 using MyBlogProject_Frontend.Areas.Admin.Models.DTOs;
 using MyBlogProject_Frontend.Areas.Admin.Models.DTOs.Article;
 using MyBlogProject_Frontend.Areas.Admin.Models.DTOs.Category;
-
+using MyBlogProject_Frontend.Areas.Admin.Models.ViewModels.ArticleViewModels;
 using Newtonsoft.Json;
 using System.Text;
 
@@ -16,6 +16,7 @@ namespace MyBlogProject_Frontend.Areas.Admin.Controllers
     [Area("admin")]
     public class ArticleController : Controller
     {
+        private static bool _DetailPage = false;
         private readonly IWebHostEnvironment _webHostEnvironment;
 	
 
@@ -50,6 +51,7 @@ namespace MyBlogProject_Frontend.Areas.Admin.Controllers
                 ListDto = JsonConvert.DeserializeObject<List<ApiArticleGetDto>>(jsonString,settings);
             }
 
+            _DetailPage = true;
             return View(ListDto);
         }
 
@@ -192,7 +194,7 @@ namespace MyBlogProject_Frontend.Areas.Admin.Controllers
             
 
             HttpClient client= new HttpClient();
-            client.BaseAddress = new Uri("https://localhost:7147/api/Article/SoftDelete2?id="+id);
+            client.BaseAddress = new Uri("https://localhost:7147/api/Article/SoftDelete?id="+id);
             string jsonContent = JsonConvert.SerializeObject(patchDoc);
             StringContent content = new StringContent(jsonContent, Encoding.UTF8, "application/json-patch+json");
 
@@ -207,9 +209,9 @@ namespace MyBlogProject_Frontend.Areas.Admin.Controllers
 
         public IActionResult Details(int id)
         {
-		
+            DetailsVM _detailsVM = new DetailsVM();		           
 
-			ApiArticleGetDto articleGetDto = new ApiArticleGetDto();
+			
 
 			HttpClient client = new HttpClient();
 
@@ -220,10 +222,12 @@ namespace MyBlogProject_Frontend.Areas.Admin.Controllers
 			if (msg.StatusCode == System.Net.HttpStatusCode.OK)
 			{
 				string jsonString = msg.Content.ReadAsStringAsync().Result;
-				articleGetDto = JsonConvert.DeserializeObject<ApiArticleGetDto>(jsonString);
+				_detailsVM.articleGetDto = JsonConvert.DeserializeObject<ApiArticleGetDto>(jsonString);
 			}
 
-            return View(articleGetDto);
+            
+            _detailsVM.DetailPage = _DetailPage;
+            return View(_detailsVM);
 
 		}
 
@@ -248,14 +252,14 @@ namespace MyBlogProject_Frontend.Areas.Admin.Controllers
 					MissingMemberHandling = MissingMemberHandling.Ignore,
 				};
 
-
-				Listdto = JsonConvert.DeserializeObject<List<ApiArticleGetDto>>(jsonString, settings);
+                _DetailPage = false;
+                Listdto = JsonConvert.DeserializeObject<List<ApiArticleGetDto>>(jsonString, settings);
 			}
 			return View(Listdto);
 		}
 
        
-        public IActionResult Save(int id) 
+        public IActionResult Save([FromBody] int id) 
         {
             var patchDoc = new JsonPatchDocument<ArticleSoftDeleteDto>();
             patchDoc.Replace(e => e.IsDeleted, false);
@@ -267,7 +271,10 @@ namespace MyBlogProject_Frontend.Areas.Admin.Controllers
             StringContent content = new StringContent(jsonContent, Encoding.UTF8, "application/json-patch+json");
             HttpResponseMessage msg = client.PatchAsync(client.BaseAddress, content).Result;
 
-            return RedirectToAction("DeletedArticles", "Article");
+			if (msg.StatusCode == System.Net.HttpStatusCode.OK)
+				return Json(new { isSuccess = true });
+
+			return Json(new { isSuccess = false });
 
 
 		}

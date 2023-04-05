@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.JsonPatch;
+using Microsoft.AspNetCore.Mvc;
 using MyBlogProject_Frontend.Areas.Admin.Models.DTOs;
 using MyBlogProject_Frontend.Areas.Admin.Models.DTOs.Article;
 using MyBlogProject_Frontend.Areas.Admin.Models.DTOs.Category;
@@ -205,6 +206,29 @@ namespace MyBlogProject_Frontend.Areas.Admin.Controllers
 
 		}
 
+		public IActionResult Save([FromBody] int id)
+		{
+			var patchDoc = new JsonPatchDocument<CategorySaveDto>();
+			patchDoc.Replace(e => e.IsDeleted, false);
 
-    }
+			HttpClient client = new HttpClient();
+			client.BaseAddress = new Uri("https://localhost:7147/api/Category/Save?id=" + id);
+			string jsonContent = JsonConvert.SerializeObject(patchDoc);
+			StringContent content = new StringContent(jsonContent, Encoding.UTF8, "application/json-patch+json");
+			HttpResponseMessage msg = client.PatchAsync(client.BaseAddress, content).Result;
+
+			if (msg.StatusCode == System.Net.HttpStatusCode.OK)
+				return Json(new { isSuccess = true });
+
+			return Json(new { isSuccess = false });
+
+
+		}
+
+
+
+
+
+
+	}
 }

@@ -1,5 +1,5 @@
 ﻿
-@model ApiArticleGetDto
+@model DetailsVM
 
 @{
     ViewData["Title"] = "Details";
@@ -33,14 +33,14 @@
             <div class="form-group">
 
 
-                <label asp-for="Category.Name">Kategori</label>
-                <input asp-for="Category.Name" type="text" class="form-control" readonly/>
+                <label asp-for="@Model.articleGetDto.Category.Name">Kategori</label>
+                <input asp-for="@Model.articleGetDto.Category.Name" type="text" class="form-control" readonly/>
 
-                <label asp-for="Title">Kategori Adı</label>
-                <input asp-for="Title" type="text" class="form-control" readonly>
+                <label asp-for="@Model.articleGetDto.Title">Kategori Adı</label>
+                <input asp-for="@Model.articleGetDto.Title" type="text" class="form-control" readonly>
 
-                <label asp-for="Content">İçerik</label>
-                <textarea asp-for="Content" type="text" class="form-control mb-3" id="defaultFormControlInput" style="min-height:300px;" aria-describedby="defaultFormControlHelp" readonly></textarea>
+                <label asp-for="@Model.articleGetDto.Content">İçerik</label>
+                <textarea asp-for="@Model.articleGetDto.Content" type="text" class="form-control mb-3" id="defaultFormControlInput" style="min-height:300px;" aria-describedby="defaultFormControlHelp" readonly></textarea>
 
 
 
@@ -48,7 +48,7 @@
 
                 <div class="row">
                     <div class="col-sm-9">
-                        <label asp-for="PhotoPath">Fotoğraf</label>
+                        <label asp-for="@Model.articleGetDto.PhotoPath">Fotoğraf</label>
                         <div class="row">
                             <div class="col-sm-9 ">
 								<img src="~/articlephotos/nocontent.png" />
@@ -66,7 +66,15 @@
 
          <div class="row">
             <div class="col-12">
-                <a href="/Article/Index" class="btn btn-secondary">Geri Dön</a>
+                @if(Model.DetailPage)
+                {
+                    <a href="/Article/Index" class="btn btn-secondary">Geri Dön</a>
+                }
+                else
+                {
+                    <a href="/Article/DeletedArticles" class="btn btn-secondary">Geri Dön</a>
+                }
+
                
             </div>
         </div>

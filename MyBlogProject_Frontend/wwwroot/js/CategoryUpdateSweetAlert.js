@@ -44,12 +44,12 @@ $(document).ready(function () {
                             }, 1500)
                         }
                         else {
-                            Swal.fire(
-                                'Güncellenemedi!',
-                                'Kategori Güncellenirken Hata Oluştu',
-                                'error'
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Kategori Güncellenemedi',
+                                html: response.message
 
-                            )
+                            })
                         }
 
                     },

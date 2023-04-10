@@ -1,24 +1,31 @@
-﻿$(document).ready(function () {
-    $("#AddCategory").click(function (e) {
+﻿
+$(document).ready(function () {
+    $("#ArticleAdd").click(function (e) {
 
-        var formdata =
-        {
+        debugger;
 
-            Name: $("#CategoryName").val()
-           
-        }
+        var formData = new FormData();
+
+        var file = $("#customFile").get(0).files[0];
+
+        formData.append("Title", $('#ArticleName').val());
+        formData.append("Content", $("#defaultFormControlInput").val());
+        formData.append("CategoryId", $("#CategoryID").val());
+        formData.append("ArticlePhoto", file);
+
+
 
         e.preventDefault();
 
 
         let timerInterval
         Swal.fire({
-            title: 'Kategori Ekleniyor!',
+            title: 'Lütfen Bekleyiniz!',
 
             width: 600,
             padding: '3em',
             color: '#716add',
-            background: '#fff url(/images/trees.png)',
+
 
             html: ' <b></b> milisaniye',
             timer: 1500,
@@ -39,34 +46,34 @@
 
                 $.ajax({
 
-                    url: "/Category/Add",
-                    type: "Post",
-                    contentType: 'application/json',
+                    url: "/Article/Add",
+                    method: "Post",
                     dataType: 'json',
-                    data: JSON.stringify(formdata),
+                    data: formData,
 
-                    success: function (data) {
-                        if (data.isSuccess) {
+                    contentType: false,
+                    processData: false,
+                    success: function (response) {
+                        if (response.isSuccess) {
                             Swal.fire({
                                 position: 'top-end',
                                 icon: 'success',
-                                title: 'Kategori Başarıyla Eklendi.',
+                                title: 'Makale Başarıyla Eklendi.',
                                 showConfirmButton: false,
                                 timer: 1500
-                            })
+                            },
                                 setTimeout(function () {
-                                    window.location.href = "/Category/Index"
+                                    window.location.href = "/Article/Index"
 
                                 }, 1500)
-                            
+                            )
                         }
                         else {
-
-                            swal.fire(
-                                'Error!',
-                                'Kategori Eklenirken Bir Hata Oluştu',
-                                'error'
-                            )
+                            swal.fire({
+                                icon: 'error',
+                                title: 'Kategori Kaydedilemedi',
+                                html: response.message
+                            })
 
                         }
                     },
@@ -83,6 +90,7 @@
     });
 
 });
+
 
 
 

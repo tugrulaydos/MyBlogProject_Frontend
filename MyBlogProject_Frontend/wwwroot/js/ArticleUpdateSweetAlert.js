@@ -11,7 +11,7 @@ $(document).ready(function () {
             Content: $("#ArticleContent").val(),
             CategoryId: $("#ArticleCategoryID").val()
         }
-        
+
         e.preventDefault();
 
         Swal.fire({
@@ -46,12 +46,11 @@ $(document).ready(function () {
                             }, 1500)
                         }
                         else {
-                            Swal.fire(
-                                'Güncellenemedi!',
-                                'Makale Güncellenirken Hata Oluştu',
-                                'error'
-
-                            )
+                            swal.fire({
+                                icon: 'error',
+                                title: 'Makale Güncellenemedi',
+                                html: response.message
+                            })
                         }
 
                     },

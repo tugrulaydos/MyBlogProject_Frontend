@@ -49,8 +49,9 @@ $(document).ready(function () {
                             position: 'top-end',
                             icon: 'error',
                             title: 'Kategori Eklenirken Bir Hata Oluştu',
+                            html: response.message,
                             showConfirmButton: false,
-                            timer: 2000
+                            timer: 3000
                         })
                     }
 

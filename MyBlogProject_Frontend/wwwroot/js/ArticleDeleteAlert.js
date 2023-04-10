@@ -9,7 +9,7 @@ $(document).ready(function () {
 
         Swal.fire({
             title: 'Emin Misiniz?',
-            text: "Bu işlemi Geri Alamazsınız!",
+            text: "Gerçekten Silmek İstiyor musunuz?",
             icon: 'warning',
             showCancelButton: true,
             confirmButtonColor: '#3085d6',

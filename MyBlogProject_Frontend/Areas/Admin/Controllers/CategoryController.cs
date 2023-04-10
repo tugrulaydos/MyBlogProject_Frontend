@@ -1,9 +1,12 @@
-﻿using Microsoft.AspNetCore.JsonPatch;
+﻿using FluentValidation.Results;
+using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
+
 using MyBlogProject_Frontend.Areas.Admin.Models.DTOs;
 using MyBlogProject_Frontend.Areas.Admin.Models.DTOs.Article;
 using MyBlogProject_Frontend.Areas.Admin.Models.DTOs.Category;
 using MyBlogProject_Frontend.Areas.Admin.Models.ViewModels.CategoryViewModels;
+using MyBlogProject_Frontend.Areas.Validations.CategoryValidator;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using NuGet.Configuration;
@@ -80,38 +83,71 @@ namespace MyBlogProject_Frontend.Areas.Admin.Controllers
         [HttpPost]
         public IActionResult Add([FromBody] CategoryAddDto categoryAddDto) 
         {
-            HttpClient client = new HttpClient();
-            client.BaseAddress = new Uri("https://localhost:7147/api/Category");
-            string jsonString = JsonConvert.SerializeObject(categoryAddDto);
-            StringContent content = new StringContent(jsonString, Encoding.UTF8, "application/json");
 
-            HttpResponseMessage msg = client.PostAsync(client.BaseAddress, content).Result;
-
-            if (msg.StatusCode == System.Net.HttpStatusCode.OK)
+            NewCategoryValidator validator = new();
+            ValidationResult result = validator.Validate(categoryAddDto);
+            if (result.IsValid) 
             {
-                return Json(new { isSuccess = true });
-            }
+				HttpClient client = new HttpClient();
+				client.BaseAddress = new Uri("https://localhost:7147/api/Category");
+				string jsonString = JsonConvert.SerializeObject(categoryAddDto);
+				StringContent content = new StringContent(jsonString, Encoding.UTF8, "application/json");
 
+				HttpResponseMessage msg = client.PostAsync(client.BaseAddress, content).Result;
 
+				if (msg.StatusCode == System.Net.HttpStatusCode.OK)
+				{
+					return Json(new { isSuccess = true });
+				}
 
+			}
+            else 
+            {
+                string errorMessages = string.Empty;
+                
+                foreach (ValidationFailure error in result.Errors)
+                {
+                    errorMessages += $"<b>║{error.ErrorMessage}║<b><br/>";
+                }
+                return Json(new { isSuccess = false, Message = errorMessages });                              
 
-            return Json(new { isSuccess = false});
+			}
+           
+            return Json(new { isSuccess = false });
+            
 
         }
 
         [HttpPost]
         public IActionResult AddWithAjax([FromBody]CategoryAddDto categoryAddDto)
         {
-            HttpClient client = new HttpClient();
-            client.BaseAddress = new Uri("https://localhost:7147/api/Category");
-            string jsonString = JsonConvert.SerializeObject(categoryAddDto);
-            StringContent content = new StringContent(jsonString, Encoding.UTF8, "application/json");
-            HttpResponseMessage msg = client.PostAsync(client.BaseAddress, content).Result;
+			NewCategoryValidator validator = new();
+			ValidationResult result = validator.Validate(categoryAddDto);
 
-            if (msg.StatusCode == System.Net.HttpStatusCode.OK)
+            if (result.IsValid) 
             {
-                return Json(new { isSuccess = true, Message = "Ürün başarıyla kaydedildi" });
-            }
+				HttpClient client = new HttpClient();
+				client.BaseAddress = new Uri("https://localhost:7147/api/Category");
+				string jsonString = JsonConvert.SerializeObject(categoryAddDto);
+				StringContent content = new StringContent(jsonString, Encoding.UTF8, "application/json");
+				HttpResponseMessage msg = client.PostAsync(client.BaseAddress, content).Result;
+
+				if (msg.StatusCode == System.Net.HttpStatusCode.OK)
+				{
+					return Json(new { isSuccess = true, Message = "Ürün başarıyla kaydedildi" });
+				}
+
+			}
+            else 
+            {
+				string errorMessages = string.Empty;
+				foreach (ValidationFailure error in result.Errors)
+				{
+					errorMessages += $"<b>║{error.ErrorMessage}║</b><br/>";
+				}
+				return Json(new { isSuccess = false, Message = errorMessages });
+			}
+			
 
             return Json(new { isSuccess = false });            
 
@@ -119,7 +155,7 @@ namespace MyBlogProject_Frontend.Areas.Admin.Controllers
 
         [HttpGet]
         public IActionResult CategoryUpdate(int id)
-        {           
+        {            
 
             CategoryUpdateDto categoryUpdateDto = new CategoryUpdateDto();
 
@@ -144,18 +180,37 @@ namespace MyBlogProject_Frontend.Areas.Admin.Controllers
         [HttpPost]
         public IActionResult CategoryUpdate([FromBody] CategoryUpdateDto categoryUpdateDto)
         {
-            HttpClient client = new HttpClient();
-            client.BaseAddress = new Uri("https://localhost:7147/api/Category");
+            UpdateCategoryValidator validator = new();
+			ValidationResult result = validator.Validate(categoryUpdateDto);
 
-            string jsonString = JsonConvert.SerializeObject(categoryUpdateDto);
-            StringContent content = new StringContent(jsonString, Encoding.UTF8, "application/json");
-
-            HttpResponseMessage msg = client.PutAsync(client.BaseAddress, content).Result;
-
-            if(msg.StatusCode == System.Net.HttpStatusCode.OK)
+            if (result.IsValid)
             {
-                return Json(new { isSuccess = true });
-            }
+				HttpClient client = new HttpClient();
+				client.BaseAddress = new Uri("https://localhost:7147/api/Category");
+
+				string jsonString = JsonConvert.SerializeObject(categoryUpdateDto);
+				StringContent content = new StringContent(jsonString, Encoding.UTF8, "application/json");
+
+				HttpResponseMessage msg = client.PutAsync(client.BaseAddress, content).Result;
+
+				if (msg.StatusCode == System.Net.HttpStatusCode.OK)
+				{
+					return Json(new { isSuccess = true });
+				}
+
+			}
+            else 
+            {
+				string errorMessages = string.Empty;
+				foreach (ValidationFailure error in result.Errors)
+				{
+					errorMessages += $"<b>║{error.ErrorMessage}║</b><br/>";
+				}
+				return Json(new { isSuccess = false, Message = errorMessages });
+
+			}
+
+			
 
             return Json(new { isSuccess = false });
 

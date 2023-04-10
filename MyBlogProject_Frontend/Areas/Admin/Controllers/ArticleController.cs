@@ -1,10 +1,14 @@
-﻿using Microsoft.AspNetCore.JsonPatch;
+﻿using FluentValidation;
+using FluentValidation.Results;
+using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using MyBlogProject_Frontend.Areas.Admin.Models.DTOs;
 using MyBlogProject_Frontend.Areas.Admin.Models.DTOs.Article;
 using MyBlogProject_Frontend.Areas.Admin.Models.DTOs.Category;
 using MyBlogProject_Frontend.Areas.Admin.Models.ViewModels.ArticleViewModels;
+using MyBlogProject_Frontend.Areas.Validations.ArticleValidator;
+using MyBlogProject_Frontend.Areas.Validations.CategoryValidator;
 using Newtonsoft.Json;
 using System.Text;
 
@@ -74,55 +78,79 @@ namespace MyBlogProject_Frontend.Areas.Admin.Controllers
 
         [HttpPost]
         public IActionResult Add(ArticleAddDto articleAddDto)
-        {
-			#region Photo Transactions
-			var file = articleAddDto.ArticlePhoto;
+        {           
 
-            var fileName = Path.GetFileName(file.FileName);
-            var fileExtension = Path.GetExtension(fileName);
+			NewArticleValidator validator = new();
+            ValidationResult result = validator.Validate(articleAddDto);
 
-            //Unique ID
-            var uniqueFileName = Guid.NewGuid().ToString() + fileExtension;
-
-            //Resmin Kaydedileceği Yolu Ayarla
-            var uploadsDirectory = Path.Combine(_webHostEnvironment.WebRootPath,"ArticlePhotos");
-            var filePath = Path.Combine(uploadsDirectory,uniqueFileName);
-
-            //if There is no folder, Create it
-            if (!Directory.Exists(filePath))
+            if (result.IsValid) 
             {
-                Directory.CreateDirectory(uploadsDirectory);
+				#region Photo Transactions
+				var file = articleAddDto.ArticlePhoto;
+
+				var fileName = Path.GetFileName(file.FileName);
+				var fileExtension = Path.GetExtension(fileName);
+
+				//Unique ID
+				var uniqueFileName = Guid.NewGuid().ToString() + fileExtension;
+
+				//Resmin Kaydedileceği Yolu Ayarla
+				var uploadsDirectory = Path.Combine(_webHostEnvironment.WebRootPath, "ArticlePhotos");
+				var filePath = Path.Combine(uploadsDirectory, uniqueFileName);
+
+				//if There is no folder, Create it
+				if (!Directory.Exists(filePath))
+				{
+					Directory.CreateDirectory(uploadsDirectory);
+				}
+
+				//Save the Directory to the disk
+				using (var stream = new FileStream(filePath, FileMode.Create))
+				{
+					file.CopyToAsync(stream);
+				}
+
+
+				articleAddDto.PhotoPath = uniqueFileName;
+
+				#endregion
+
+
+				articleAddDto.ImageId = 2;
+
+				HttpClient client = new HttpClient();
+
+				client.BaseAddress = new Uri("https://localhost:7147/api/Article");
+
+				string jsonString = JsonConvert.SerializeObject(articleAddDto);
+
+				StringContent content = new StringContent(jsonString, Encoding.UTF8, "application/json");
+
+				HttpResponseMessage msg = client.PostAsync(client.BaseAddress, content).Result;
+
+				if (msg.StatusCode == System.Net.HttpStatusCode.OK)
+				{
+					return Json(new { isSuccess = true });
+
+				}
+
+			}
+            else 
+            {
+                string errorMessages = string.Empty;
+
+                foreach(var error in result.Errors) 
+                {
+                    errorMessages += $"<b>║{error.ErrorMessage}║</b><br/>";
+
+                }
+
+
+                return Json(new { isSuccess = false,message= errorMessages});
+
             }
 
-            //Save the Directory to the disk
-            using(var stream = new FileStream(filePath, FileMode.Create))
-            {
-                file.CopyToAsync(stream);
-            }
-
-
-            articleAddDto.PhotoPath = uniqueFileName;
-
-            #endregion
-
-
-            articleAddDto.ImageId = 2;
-
-            HttpClient client = new HttpClient();
-
-            client.BaseAddress = new Uri("https://localhost:7147/api/Article");
-
-            string jsonString = JsonConvert.SerializeObject(articleAddDto);
-
-            StringContent content = new StringContent(jsonString, Encoding.UTF8, "application/json");
-
-            HttpResponseMessage msg = client.PostAsync(client.BaseAddress, content).Result;
-
-            if (msg.StatusCode == System.Net.HttpStatusCode.OK)
-            {
-                return Json(new { isSuccess = true });
-
-            }
+		
 
             return Json(new { isSuccess = false });
 
@@ -135,13 +163,9 @@ namespace MyBlogProject_Frontend.Areas.Admin.Controllers
         public IActionResult Update(int id)
         {
             ArticleUpdateDto articleUpdateDto = new ArticleUpdateDto();
-
             HttpClient client = new HttpClient();
-
             client.BaseAddress = new Uri("https://localhost:7147/api/Article/"+id);
-
             HttpResponseMessage msg = client.GetAsync(client.BaseAddress).Result;
-
             if(msg.StatusCode==System.Net.HttpStatusCode.OK)
             {
                 string jsonString = msg.Content.ReadAsStringAsync().Result; 
@@ -167,17 +191,36 @@ namespace MyBlogProject_Frontend.Areas.Admin.Controllers
         [HttpPost]
         public IActionResult Update([FromBody] ArticleUpdateDto articleUpdateDto)
         {
-            articleUpdateDto.ImageId = 2;
-            HttpClient client = new HttpClient();
-            client.BaseAddress = new Uri("https://localhost:7147/api/Article/");
+			UpdateArticleValidator validator = new();
+			ValidationResult result = validator.Validate(articleUpdateDto);
 
-            string JsonString = JsonConvert.SerializeObject(articleUpdateDto);
-            StringContent content = new StringContent(JsonString, Encoding.UTF8, "application/json");
-            HttpResponseMessage msg = client.PutAsync(client.BaseAddress, content).Result;
-            if(msg.StatusCode== System.Net.HttpStatusCode.OK)
+            if (result.IsValid) 
             {
-				return Json(new { isSuccess = true });
+				articleUpdateDto.ImageId = 2;
+				HttpClient client = new HttpClient();
+				client.BaseAddress = new Uri("https://localhost:7147/api/Article/");
+
+				string JsonString = JsonConvert.SerializeObject(articleUpdateDto);
+				StringContent content = new StringContent(JsonString, Encoding.UTF8, "application/json");
+				HttpResponseMessage msg = client.PutAsync(client.BaseAddress, content).Result;
+				if (msg.StatusCode == System.Net.HttpStatusCode.OK)
+				{
+					return Json(new { isSuccess = true });
+				}
+
 			}
+            else 
+            {
+				string errorMessages = string.Empty;
+				foreach (var error in result.Errors)
+				{
+					errorMessages += $"<b>║{error.ErrorMessage}║</b><br/>";
+				}
+				return Json(new { isSuccess = false, message = errorMessages });
+
+			}
+
+			
 
             return Json(new {isSuccess = false });
             

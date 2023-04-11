@@ -1,4 +1,6 @@
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.FileSystemGlobbing.Internal.Patterns;
+using MyBlogProject_Frontend.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -7,6 +9,9 @@ builder.Services.AddControllersWithViews().AddRazorRuntimeCompilation();
 
 var app = builder.Build();
 
+var connectionString = builder.Configuration.GetConnectionString("MyDatabase");
+builder.Services.AddDbContext<ConsumerDbContext>(options => options.UseSqlServer(connectionString));
+    ;
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {

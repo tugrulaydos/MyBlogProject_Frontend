@@ -46,7 +46,7 @@ $(document).ready(function () {
 
                 $.ajax({
 
-                    url: "/Article/Add",
+                    url: "/admin/Article/Add",
                     method: "Post",
                     dataType: 'json',
                     data: formData,
@@ -63,7 +63,7 @@ $(document).ready(function () {
                                 timer: 1500
                             },
                                 setTimeout(function () {
-                                    window.location.href = "/Article/Index"
+                                    window.location.href = "/admin/Article/Index"
 
                                 }, 1500)
                             )

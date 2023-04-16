@@ -18,7 +18,7 @@ $(document).ready(function () {
         }).then((result) => {
             if (result.isConfirmed) {
                 $.ajax({
-                    url: "/Category/HardDelete",
+                    url: "/admin/Category/HardDelete",
                     type: "Post",
                     contentType: 'application/json',
                     dataType: 'json',
@@ -31,7 +31,7 @@ $(document).ready(function () {
                                 'success'
                             )
                             setTimeout(function () {
-                                window.location.href = "/Category/DeletedCategory"
+                                window.location.href = "/admin/Category/DeletedCategory"
 
                             }, 1500)
                         }

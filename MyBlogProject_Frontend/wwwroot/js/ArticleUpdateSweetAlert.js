@@ -28,7 +28,7 @@ $(document).ready(function () {
             if (result.isConfirmed) {
 
                 $.ajax({
-                    url: "/Article/Update",
+                    url: "/admin/Article/Update",
                     type: "post",
                     contentType: 'application/json',
                     datatype: "json",
@@ -42,7 +42,7 @@ $(document).ready(function () {
                                 'success'
                             )
                             setTimeout(function () {
-                                window.location.href = "/Article/Index"
+                                window.location.href = "/admin/Article/Index"
                             }, 1500)
                         }
                         else {

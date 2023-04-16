@@ -33,7 +33,7 @@ $(document).ready(function () {
                                 'success'
                             ),
                             setTimeout(function () {
-                                window.location.href = "/Article/DeletedArticles"
+                                window.location.href = "/admin/Article/DeletedArticles"
 
                             }, 1500)
 

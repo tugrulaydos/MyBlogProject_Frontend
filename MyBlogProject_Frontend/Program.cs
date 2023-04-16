@@ -1,17 +1,33 @@
+using FluentValidation.AspNetCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.FileSystemGlobbing.Internal.Patterns;
+using MyBlogProject_Frontend.Areas.Validations.LoginValidator;
 using MyBlogProject_Frontend.Models;
+
+
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews().AddRazorRuntimeCompilation();
 
-var app = builder.Build();
+builder.Services.AddFluentValidation(x =>
+{
+    x.RegisterValidatorsFromAssemblyContaining<LoginValidator>();
+    x.DisableDataAnnotationsValidation = true;
+    x.ValidatorOptions.LanguageManager.Culture = new System.Globalization.CultureInfo("tr"); 
+});
 
 var connectionString = builder.Configuration.GetConnectionString("MyDatabase");
 builder.Services.AddDbContext<ConsumerDbContext>(options => options.UseSqlServer(connectionString));
-    ;
+
+builder.Services.AddSession();
+
+
+var app = builder.Build();
+
+
+    
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
@@ -23,40 +39,32 @@ if (!app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 
+app.UseSession();
+
 app.UseRouting();
 
 app.UseAuthorization();
 
 app.UseEndpoints(endpoints =>
 {
-    //endpoints.MapControllerRoute(
-    //  name: "areas",
-    //  pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}"
-    //);
-
-    endpoints.MapAreaControllerRoute(
-        name: "Admin",
-        areaName: "Admin",
-        pattern: "{controller=Home}/{action=Index}/{Id?}");
 
     endpoints.MapControllerRoute(
-        name: "default",
-        pattern: "{controller=Home}/{action=Index}/{id?}");
-
-    
+        name: "areaDefault",
+        pattern: "{area:exists}/{controller=Authentication}/{action=Login}/{id?}"
+        );
 
     //endpoints.MapAreaControllerRoute(
     //   name: "admin",
     //   areaName: "admin",
-    //   pattern: "{controller=Category}/{action=Delete}/{Id?}");
+    //   pattern: "admin/{controller=Authentication}/{action=Login}");
 
 
-
+    endpoints.MapControllerRoute(
+        name: "default",
+        pattern:"{controller=Home}/{action=Index}/{id?}"); 
+   
 
 });
 
-//app.MapControllerRoute(
-//    name: "default",
-//    pattern: "{controller=Home}/{action=Index}/{id?}");
 
 app.Run();

@@ -19,7 +19,7 @@ $(document).ready(function () {
 
                 $.ajax({
 
-                    url: "/Category/Save",
+                    url: "/admin/Category/Save",
                     type: "Post",
                     contentType: 'application/json',
                     dataType: 'json',
@@ -33,7 +33,7 @@ $(document).ready(function () {
                                 'success'
                             ),
                                 setTimeout(function () {
-                                    window.location.href = "/Category/DeletedCategory"
+                                    window.location.href = "/admin/Category/DeletedCategory"
 
                                 }, 1500)
 

@@ -19,7 +19,7 @@ $(document).ready(function () {
         }).then((result) => {
             if (result.isConfirmed) {
                 $.ajax({
-                    url: "/Article/Delete",
+                    url: "/admin/Article/Delete",
                     type: "Post",
                     contentType: 'application/json',
                     dataType: 'json',
@@ -32,7 +32,7 @@ $(document).ready(function () {
                                 'success'
                             )
                             setTimeout(function () {
-                                window.location.href = "/Article/Index"
+                                window.location.href = "/admin/Article/Index"
 
                             }, 1500)
                         }

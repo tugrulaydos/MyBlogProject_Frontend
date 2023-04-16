@@ -26,7 +26,7 @@ $(document).ready(function () {
             if (result.isConfirmed) {
 
                 $.ajax({
-                    url: "/Category/CategoryUpdate",
+                    url: "/admin/Category/CategoryUpdate",
                     type: "post",
                     contentType: 'application/json',
                     datatype: "json",
@@ -40,7 +40,7 @@ $(document).ready(function () {
                                 'success'
                             )
                             setTimeout(function () {
-                                window.location.href = "/Category/Index"
+                                window.location.href = "/admin/Category/Index"
                             }, 1500)
                         }
                         else {

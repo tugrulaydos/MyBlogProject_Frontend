@@ -39,7 +39,7 @@
 
                 $.ajax({
 
-                    url: "/Category/Add",
+                    url: "/admin/Category/Add",
                     type: "Post",
                     contentType: 'application/json',
                     dataType: 'json',

@@ -20,7 +20,7 @@ $(document).ready(function () {
             if (result.isConfirmed) {
 
                 $.ajax({
-                    url: "/Category/Delete",
+                    url: "/admin/Category/Delete",
                     type: "Post",
                     contentType: 'application/json',
                     dataType: 'json',
@@ -33,7 +33,7 @@ $(document).ready(function () {
                                 'success'
                             )
                             setTimeout(function () {
-                                window.location.href = "/Category/Index"
+                                window.location.href = "/admin/Category/Index"
 
                             }, 1500)
                         }

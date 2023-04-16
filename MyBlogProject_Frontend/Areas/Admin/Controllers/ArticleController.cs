@@ -3,6 +3,7 @@ using FluentValidation.Results;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
+using MyBlogProject_Frontend.Areas.Admin.AttributeFilters;
 using MyBlogProject_Frontend.Areas.Admin.Models.DTOs;
 using MyBlogProject_Frontend.Areas.Admin.Models.DTOs.Article;
 using MyBlogProject_Frontend.Areas.Admin.Models.DTOs.Category;
@@ -20,7 +21,7 @@ namespace MyBlogProject_Frontend.Areas.Admin.Controllers
     [Area("admin")]
     public class ArticleController : Controller
     {
-        private static bool _DetailPage = false;
+        private static bool _DetailPage = false; //Geri Geli Butonuna tıkladığında hangi sayfaya yönleneceğini belirliyor.
         private readonly IWebHostEnvironment _webHostEnvironment;
 	
 
@@ -29,6 +30,7 @@ namespace MyBlogProject_Frontend.Areas.Admin.Controllers
             this._webHostEnvironment= webHostEnvironment;
 
         }
+        [Session("username","Authentication","Login")]
         public IActionResult Index() 
         {
 
@@ -61,6 +63,7 @@ namespace MyBlogProject_Frontend.Areas.Admin.Controllers
 
 
         [HttpGet]
+        [Session("username", "Authentication", "Login")]
         public IActionResult Add()
         {
             List<CategoryDto> CategoryListDto = new();
@@ -77,6 +80,7 @@ namespace MyBlogProject_Frontend.Areas.Admin.Controllers
         }
 
         [HttpPost]
+        [Session("username", "Authentication", "Login")]
         public IActionResult Add(ArticleAddDto articleAddDto)
         {           
 
@@ -159,6 +163,7 @@ namespace MyBlogProject_Frontend.Areas.Admin.Controllers
         }
 
 
+        [Session("username", "Authentication", "Login")]
         [HttpGet]
         public IActionResult Update(int id)
         {
@@ -187,7 +192,7 @@ namespace MyBlogProject_Frontend.Areas.Admin.Controllers
             return View(articleUpdateDto);
         }
 
-
+        [Session("username", "Authentication", "Login")]
         [HttpPost]
         public IActionResult Update([FromBody] ArticleUpdateDto articleUpdateDto)
         {
@@ -227,7 +232,7 @@ namespace MyBlogProject_Frontend.Areas.Admin.Controllers
            
         }
 
-        
+        [Session("username", "Authentication", "Login")]
         public IActionResult Delete([FromBody]int id)
         {            
 
@@ -250,6 +255,7 @@ namespace MyBlogProject_Frontend.Areas.Admin.Controllers
 
         }
 
+        [Session("username", "Authentication", "Login")]
         public IActionResult Details(int id)
         {
             DetailsVM _detailsVM = new DetailsVM();		        
@@ -273,6 +279,7 @@ namespace MyBlogProject_Frontend.Areas.Admin.Controllers
 
 		}
 
+        [Session("username", "Authentication", "Login")]
         public IActionResult DeletedArticles() 
         {
 			List<ApiArticleGetDto> Listdto = new();
@@ -300,7 +307,7 @@ namespace MyBlogProject_Frontend.Areas.Admin.Controllers
 			return View(Listdto);
 		}
 
-       
+        [Session("username", "Authentication", "Login")]
         public IActionResult Save([FromBody] int id) 
         {
             var patchDoc = new JsonPatchDocument<ArticleSaveDto>();
@@ -321,7 +328,7 @@ namespace MyBlogProject_Frontend.Areas.Admin.Controllers
 
 		}
 
-
+        [Session("username", "Authentication", "Login")]
         public IActionResult HardDelete([FromBody]int id) 
         {
             HttpClient client = new HttpClient();

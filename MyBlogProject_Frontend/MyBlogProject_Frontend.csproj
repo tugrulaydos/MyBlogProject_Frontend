@@ -26,4 +26,19 @@
     <Folder Include="Areas\Admin\Models\ViewModels\ArticleViewModels\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Include="wwwroot\stand-blog\assets\fonts\flexslider-icon.svg" />
+    <None Include="wwwroot\stand-blog\assets\fonts\fontawesome-webfont.svg" />
+    <None Include="wwwroot\stand-blog\assets\fonts\fontawesome-webfont.woff2" />
+    <None Include="wwwroot\stand-blog\assets\fonts\slick.svg" />
+    <None Include="wwwroot\stand-blog\assets\js\accordions.js" />
+    <None Include="wwwroot\stand-blog\assets\js\custom.js" />
+    <None Include="wwwroot\stand-blog\assets\js\isotope.js" />
+    <None Include="wwwroot\stand-blog\assets\js\owl.js" />
+    <None Include="wwwroot\stand-blog\assets\js\slick.js" />
+    <None Include="wwwroot\stand-blog\prepros-6.config" />
+    <None Include="wwwroot\stand-blog\vendor\bootstrap\js\bootstrap.bundle.min.js" />
+    <None Include="wwwroot\stand-blog\vendor\jquery\jquery.min.js" />
+  </ItemGroup>
+
 </Project>

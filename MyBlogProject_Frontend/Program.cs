@@ -2,9 +2,7 @@ using FluentValidation.AspNetCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.FileSystemGlobbing.Internal.Patterns;
 using MyBlogProject_Frontend.Areas.Validations.LoginValidator;
-using MyBlogProject_Frontend.Models;
-
-
+using MyBlogProject_Frontend.Models.Context;
 
 var builder = WebApplication.CreateBuilder(args);
 

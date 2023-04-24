@@ -50,9 +50,20 @@
                     <div class="col-sm-9">
                         <label asp-for="@Model.articleGetDto.PhotoPath">Fotoğraf</label>
                         <div class="row">
-                            <div class="col-sm-9 ">
-								<img src="~/articlephotos/nocontent.png" />
-                            </div>
+                            @if(Model.articleGetDto.PhotoPath==null)
+                            {
+                                <div class="col-sm-9 ">
+                                    <img src="~/articlephotos/nocontent.png" />
+                                </div>
+                            }
+                            else
+                            {
+                                <div class="col-sm-9 ">
+                                    <img src="~/articlephotos/@Model.articleGetDto.PhotoPath" />
+                                </div>
+                                
+                            }
+
 							
                         </div>
                     </div>

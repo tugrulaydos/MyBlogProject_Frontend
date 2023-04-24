@@ -120,7 +120,7 @@ namespace MyBlogProject_Frontend.Areas.Admin.Controllers
 				#endregion
 
 
-				articleAddDto.ImageId = 2;
+			
 
 				HttpClient client = new HttpClient();
 
@@ -201,7 +201,7 @@ namespace MyBlogProject_Frontend.Areas.Admin.Controllers
 
             if (result.IsValid) 
             {
-				articleUpdateDto.ImageId = 2;
+				
 				HttpClient client = new HttpClient();
 				client.BaseAddress = new Uri("https://localhost:7147/api/Article/");
 

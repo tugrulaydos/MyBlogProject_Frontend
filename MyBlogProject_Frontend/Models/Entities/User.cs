@@ -1,4 +1,4 @@
-﻿namespace MyBlogProject_Frontend.Models
+﻿namespace MyBlogProject_Frontend.Models.Entities
 {
     public class User
     {

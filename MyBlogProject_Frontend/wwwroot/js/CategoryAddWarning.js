@@ -55,7 +55,7 @@
                                 timer: 1500
                             })
                             setTimeout(function () {
-                                window.location.href = window.location.reload();
+                                window.location.href = "/Admin/Category/Index"
 
                             }, 1500)
 

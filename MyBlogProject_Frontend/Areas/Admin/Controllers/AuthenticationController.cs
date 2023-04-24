@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using MyBlogProject_Frontend.Areas.Admin.Models.DTOs.Login;
 using MyBlogProject_Frontend.Areas.Validations.LoginValidator;
-using MyBlogProject_Frontend.Models;
+using MyBlogProject_Frontend.Models.Context;
 
 namespace MyBlogProject_Frontend.Areas.Admin.Controllers
 {

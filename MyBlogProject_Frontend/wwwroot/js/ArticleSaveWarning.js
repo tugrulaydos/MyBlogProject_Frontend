@@ -3,7 +3,7 @@ $(document).ready(function () {
     $(".SavedArticle").click(function (e) {
 
         const Id = $(this).attr("x");
-        debugger;
+  
         e.preventDefault();  
         Swal.fire({
             title: 'Emin Misin?',
@@ -19,7 +19,7 @@ $(document).ready(function () {
 
                 $.ajax({
 
-                    url: "/Article/Save",
+                    url: "/admin/Article/Save",
                     type: "Post",
                     contentType: 'application/json',
                     dataType: 'json',

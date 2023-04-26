@@ -94,14 +94,11 @@ namespace MyBlogProject_Frontend.Areas.Admin.Controllers
 
 				var fileName = Path.GetFileName(file.FileName);
 				var fileExtension = Path.GetExtension(fileName);
-
 				//Unique ID
 				var uniqueFileName = Guid.NewGuid().ToString() + fileExtension;
-
 				//Resmin Kaydedileceği Yolu Ayarla
 				var uploadsDirectory = Path.Combine(_webHostEnvironment.WebRootPath, "ArticlePhotos");
 				var filePath = Path.Combine(uploadsDirectory, uniqueFileName);
-
 				//if There is no folder, Create it
 				if (!Directory.Exists(filePath))
 				{
@@ -114,51 +111,34 @@ namespace MyBlogProject_Frontend.Areas.Admin.Controllers
 					file.CopyToAsync(stream);
 				}
 
-
 				articleAddDto.PhotoPath = uniqueFileName;
 
 				#endregion
-
-
-			
+                			
 
 				HttpClient client = new HttpClient();
-
 				client.BaseAddress = new Uri("https://localhost:7147/api/Article");
-
 				string jsonString = JsonConvert.SerializeObject(articleAddDto);
-
 				StringContent content = new StringContent(jsonString, Encoding.UTF8, "application/json");
-
 				HttpResponseMessage msg = client.PostAsync(client.BaseAddress, content).Result;
-
 				if (msg.StatusCode == System.Net.HttpStatusCode.OK)
 				{
 					return Json(new { isSuccess = true });
-
 				}
 
 			}
             else 
             {
                 string errorMessages = string.Empty;
-
                 foreach(var error in result.Errors) 
                 {
                     errorMessages += $"<b>║{error.ErrorMessage}║</b><br/>";
 
                 }
-
-
                 return Json(new { isSuccess = false,message= errorMessages});
+            }	
 
-            }
-
-		
-
-            return Json(new { isSuccess = false });
-
-			
+            return Json(new { isSuccess = false });			
 
         }
 
@@ -167,6 +147,7 @@ namespace MyBlogProject_Frontend.Areas.Admin.Controllers
         [HttpGet]
         public IActionResult Update(int id)
         {
+            
             ArticleUpdateDto articleUpdateDto = new ArticleUpdateDto();
             HttpClient client = new HttpClient();
             client.BaseAddress = new Uri("https://localhost:7147/api/Article/"+id);
@@ -187,22 +168,56 @@ namespace MyBlogProject_Frontend.Areas.Admin.Controllers
                 CategoryDto = JsonConvert.DeserializeObject<List<CategoryDto>>(jsonString);  
             }
 
-            articleUpdateDto.Categories = CategoryDto;      
+            articleUpdateDto.Categories = CategoryDto;
+            TempData.Clear();
+            TempData.Add("PhotoPath", articleUpdateDto.PhotoPath);
 
             return View(articleUpdateDto);
         }
 
         [Session("username", "Authentication", "Login")]
         [HttpPost]
-        public IActionResult Update([FromBody] ArticleUpdateDto articleUpdateDto)
+        public IActionResult Update(ArticleUpdateDto articleUpdateDto)
         {
 			UpdateArticleValidator validator = new();
 			ValidationResult result = validator.Validate(articleUpdateDto);
 
             if (result.IsValid) 
             {
-				
-				HttpClient client = new HttpClient();
+                if(articleUpdateDto.ArticlePhoto!= null)
+                {
+                    var file = articleUpdateDto.ArticlePhoto;
+
+                    var fileName = Path.GetFileName(file.FileName);
+                    var fileExtension = Path.GetExtension(fileName);
+                    //Unique ID
+                    var uniqueFileName = Guid.NewGuid().ToString() + fileExtension;
+                    //Resmin Kaydedileceği Yolu Ayarla
+                    var uploadsDirectory = Path.Combine(_webHostEnvironment.WebRootPath, "ArticlePhotos");
+                    var filePath = Path.Combine(uploadsDirectory, uniqueFileName);
+                    //if There is no folder, Create it
+                    if (!Directory.Exists(filePath))
+                    {
+                        Directory.CreateDirectory(uploadsDirectory);
+                    }
+
+                    //Save the Directory to the disk
+                    using (var stream = new FileStream(filePath, FileMode.Create))
+                    {
+                        file.CopyToAsync(stream);
+                    }
+
+                    articleUpdateDto.PhotoPath = uniqueFileName;
+                }
+                else 
+                {
+                    articleUpdateDto.PhotoPath = TempData.Peek("PhotoPath") as string;
+
+				}
+
+
+
+                HttpClient client = new HttpClient();
 				client.BaseAddress = new Uri("https://localhost:7147/api/Article/");
 
 				string JsonString = JsonConvert.SerializeObject(articleUpdateDto);

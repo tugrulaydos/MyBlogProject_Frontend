@@ -49,6 +49,10 @@
                 <label asp-for="Content">İçerik</label>
                 <textarea asp-for="Content" id="ArticleContent" type="text" class="form-control mb-3" id="defaultFormControlInput" style="min-height:300px;" placeholder="Lütfen İçerik Giriniz." aria-describedby="defaultFormControlHelp"></textarea>              
 
+                <div class="input-group mb-3">
+                    <label class="input-group-text" for="customFile">Fotoğraf Yükle</label>
+                    <input type="file" class="form-control" id="updateFile">
+                </div>
 
 
             </div>
@@ -69,12 +73,13 @@
 @section Scripts
 {
 
-	<script src="~/js/articleupdatesweetalert.js"></script>
+	@*<script src="~/js/articleupdatesweetalert.js"></script>*@
 
 	<script src="~/admin/plugins/sweetalert2/sweetalert2.min.js"></script>
 
 	<script src="~/admin/plugins/select2/js/select2.min.js"></script>
 
+	<script src="~/js/articleupdatealert.js"></script>
 }
 
 

@@ -2,7 +2,7 @@
 $(document).ready(function () {
     $("#ArticleAdd").click(function (e) {
 
-        debugger;
+        
 
         var formData = new FormData();
 

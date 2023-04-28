@@ -13,6 +13,9 @@ namespace MyBlogProject_Frontend.Areas.Validations.ArticleValidator
 
 			RuleFor(a => a.Content).NotEmpty().WithMessage("İçerik Boş Geçilemez");
 
+			RuleFor(b => b.ArticlePhoto.ContentType).Must(c => c.StartsWith("image/")).When(b => b.ArticlePhoto != null).WithMessage("Lütfen Resim Dosyası Seçiniz");
+			RuleFor(c => c.ArticlePhoto.Length).LessThan(2 * 1024 * 1024).When(c => c.ArticlePhoto != null).WithMessage("Dosya Boyutu 2 Megabyte'dan Küçük Olmalıdır");
+
 
 		}
 	}

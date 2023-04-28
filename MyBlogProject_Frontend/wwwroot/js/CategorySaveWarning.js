@@ -3,7 +3,7 @@ $(document).ready(function () {
     $(".SavedCategory").click(function (e) {
 
         const Id = $(this).attr("x");
-        debugger;
+        
         e.preventDefault();
         Swal.fire({
             title: 'Emin Misin?',

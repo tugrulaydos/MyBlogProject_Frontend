@@ -3,7 +3,7 @@
 $(document).ready(function () {
 
     $("#UpdateButon").click(function (e) {
-        debugger;
+        
         var formData = new FormData();
 
         var file = $("#updateFile").get(0).files[0];

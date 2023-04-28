@@ -1,4 +1,4 @@
-﻿namespace MyBlogProject_Frontend.Models.DTOs
+﻿    namespace MyBlogProject_Frontend.Models.DTOs
 {
     public class ArticleDto
     {

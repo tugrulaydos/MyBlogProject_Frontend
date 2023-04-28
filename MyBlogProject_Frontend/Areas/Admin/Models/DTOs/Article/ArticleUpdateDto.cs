@@ -17,7 +17,6 @@ namespace MyBlogProject_Frontend.Areas.Admin.Models.DTOs.Article
 		public IFormFile ArticlePhoto { get; set; }
 
 
-
 		public IList<CategoryDto> Categories { get; set; }
 
 

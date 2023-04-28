@@ -17,5 +17,7 @@ namespace MyBlogProject_Frontend.Models.Context
 
         public DbSet<User> Users { get; set; }
 
+        public DbSet<About> AboutUs { get; set; }
+
     }
 }

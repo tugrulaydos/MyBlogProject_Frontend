@@ -1,0 +1,83 @@
+﻿
+@{
+    ViewData["Title"] = "Update";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+
+@model About
+
+
+
+@section styles
+    {
+    <link href="~/admin/plugins/select2/css/select2.min.css" rel="stylesheet" />
+    <link href="~/admin/plugins/sweetalert2/sweetalert2.min.css" rel="stylesheet" />
+
+}
+
+
+<div class="card card-primary">
+    <div class="card-header">
+        <h3 class="card-title">Hakkımızda Güncelle</h3>
+        <div class="card-tools">
+            <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
+                
+                <i class="fas fa-minus">
+
+                </i>
+            </button>
+        </div>
+
+    </div>
+
+
+
+    <form>
+
+        <div class="card-body">
+
+
+            <div class="form-group">
+
+                <label asp-for="ID" style="display:none;">ID</label>
+                <input asp-for="ID" style="display:none;" type="text" id="aboutID" class="form-control" readonly>
+                
+
+                <label asp-for="Content">İçerik</label>
+                <textarea asp-for="Content" type="text" class="form-control" id="AboutContent" placeholder="İçerik Giriniz..." style="min-height:250px;" aria-describedby="defaultFormControlHelp"></textarea>
+               
+
+                <div class="input-group mb-3">
+                    <label class="input-group-text" for="customFile">Fotoğraf Yükle</label>
+                    <input type="file" class="form-control" id="updateFile">
+                </div>
+
+
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-12">
+                <a href="/Admin/About/Index" class="btn btn-secondary">Geri Dön</a>
+                <input type="submit" value="Güncelle" id="UpdateButon" class="btn btn-success float-right">
+            </div>
+        </div>
+
+    </form>
+
+</div>
+
+
+@section Scripts
+    {
+	<script src="~/js/aboutupdatewarning.js"></script>
+
+    <script src="~/admin/plugins/sweetalert2/sweetalert2.min.js"></script>
+
+    <script src="~/admin/plugins/select2/js/select2.min.js"></script>
+    
+}
+
+
+

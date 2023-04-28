@@ -4,13 +4,19 @@ $(document).ready(function () {
 
     $("#UpdateButon").click(function (e) {
 
-        var dataform =
-        {
-            ID: $("#ArticleID").val(),
-            Title: $("#ArticleTitle").val(),
-            Content: $("#ArticleContent").val(),
-            CategoryId: $("#ArticleCategoryID").val()
-        }
+        debugger;
+        
+        var formData = new FormData();
+
+        var file = $("#updateFile").get(0).files[0];
+
+        formData.append("ID", $("#AboutID").val());
+        
+        formData.append("Content", $("#AboutContent").val());
+        
+        formData.append("AboutPhoto", file);
+
+        
 
         e.preventDefault();
 
@@ -28,27 +34,28 @@ $(document).ready(function () {
             if (result.isConfirmed) {
 
                 $.ajax({
-                    url: "/Admin/Article/Update",
-                    type: "post",
-                    contentType: 'application/json',
-                    datatype: "json",
-                    data: JSON.stringify(dataform),
+                    url: "/Admin/About/Update",
+                    method: "post",
+                    dataType: 'json',
+                    data: formData,
+                    contentType: false,
+                    processData: false,
 
                     success: function (response) {
                         if (response.isSuccess) {
                             Swal.fire(
                                 'Güncelle!',
-                                'Makale Başarıyla Güncellendi',
+                                'İçerik Başarıyla Güncellendi',
                                 'success'
                             )
                             setTimeout(function () {
-                                window.location.href = "/Admin/Article/Index"
+                                window.location.href = "/Admin/About/Index"
                             }, 1500)
                         }
                         else {
                             swal.fire({
                                 icon: 'error',
-                                title: 'Makale Güncellenemedi',
+                                title: 'İçerik Güncellenemedi',
                                 html: response.message
                             })
                         }

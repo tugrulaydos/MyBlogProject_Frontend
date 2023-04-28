@@ -54,7 +54,6 @@ namespace MyBlogProject_Frontend.Areas.Admin.Controllers
 
 		}
 
-		[HttpPost]
 
 		public IActionResult Logout() 
 		{

@@ -28,6 +28,7 @@ namespace MyBlogProject_Frontend.Controllers
 
                 _homePageVM.Categories = JsonConvert.DeserializeObject<List<CategoryDto>>(jsonString, settings);
             }
+            
 
 
             HttpClient ArticleNameClient = new HttpClient();
@@ -45,10 +46,9 @@ namespace MyBlogProject_Frontend.Controllers
                 };
 
                 _homePageVM.Articles = JsonConvert.DeserializeObject<List<ArticleDto>>(jsonString2, settings2);
-
             }
 
-
+            
 
             return View(_homePageVM);
         }

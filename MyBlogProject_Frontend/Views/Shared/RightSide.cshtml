@@ -1,5 +1,9 @@
 ﻿@model HomePageVM
 
+@{
+    int sayac = 0;
+}
+
 <div class="col-lg-4">
     <div class="sidebar">
         <div class="row">
@@ -13,35 +17,30 @@
             <div class="col-lg-12">
                 <div class="sidebar-item recent-posts">
                     <div class="sidebar-heading">
-                        <h2>Son Eklenen Makaleler</h2>
+                        <h2>SON EKLENEN MAKALELER</h2>
                     </div>
                     <div class="content">
                         <ul>
-                            @foreach(var item in Model.Articles){
+                            @foreach(var item in Model.Articles){                              
                             <li>
-                                <a href="#">
-                                    <h5>-@item.Title</h5>
+                                    <a href="~/PostDetailPage/Index/@item.ID"><p>-@item.Title (@item.Category.Name)</p></a>
                                     <span>@item.CreatedDate</span>
-                                </a>
+                               
                             </li>
-                            @*<li>
-                                <a href="post-details.html">
-                                    <h5>Suspendisse et metus nec libero ultrices varius eget in risus</h5>
-                                    <span>May 28, 2020</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="post-details.html">
-                                    <h5>Swag hella echo park leggings, shaman cornhole ethical coloring</h5>
-                                    <span>May 14, 2020</span>
-                                </a>
-                            </li>*@
+
+                                sayac++;
+
+                                @if(sayac>=2)
+                                {
+                                    break;
+                                }
+                           
                             }
                         </ul>
                     </div>
                 </div>
             </div>
-            <div class="col-lg-12">
+          @*  <div class="col-lg-12">
                 <div class="sidebar-item categories">
                     <div class="sidebar-heading">
                         <h2>Son Eklenen Kategoriler</h2>
@@ -57,21 +56,25 @@
                        
                     </div>
                 </div>
-            </div>
+            </div>*@
             <div class="col-lg-12">
                 <div class="sidebar-item tags">
                     <div class="sidebar-heading">
-                        <h2>Tag Clouds</h2>
+                        <h2>KATEGORİLER</h2>
                     </div>
                     <div class="content">
                         <ul>
-                            <li><a href="#">Lifestyle</a></li>
-                            <li><a href="#">Creative</a></li>
+                            @foreach(var item in Model.Categories)
+                            {
+                               <li><a href="#">@item.Name</a></li> 
+                            }
+                            
+                            @*<li><a href="#">Creative</a></li>
                             <li><a href="#">HTML5</a></li>
                             <li><a href="#">Inspiration</a></li>
                             <li><a href="#">Motivation</a></li>
                             <li><a href="#">PSD</a></li>
-                            <li><a href="#">Responsive</a></li>
+                            <li><a href="#">Responsive</a></li>*@
                         </ul>
                     </div>
                 </div>

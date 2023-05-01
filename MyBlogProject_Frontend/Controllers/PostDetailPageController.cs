@@ -3,6 +3,7 @@ using MyBlogProject_Frontend.Areas.Admin.Models.DTOs.Article;
 using MyBlogProject_Frontend.Models.DTOs;
 using MyBlogProject_Frontend.Models.ViewModels;
 using Newtonsoft.Json;
+using System.Linq;
 
 namespace MyBlogProject_Frontend.Controllers
 {
@@ -41,6 +42,11 @@ namespace MyBlogProject_Frontend.Controllers
                 string jsonString3 = msg3.Content.ReadAsStringAsync().Result;
                 homePageVM.Categories = JsonConvert.DeserializeObject<List<CategoryDto>>(jsonString3);
             }
+
+            homePageVM.Categories = homePageVM.Categories.OrderByDescending(x=>x.ID).ToList();
+            homePageVM.Articles = homePageVM.Articles.OrderByDescending(x=>x.ID).ToList();
+
+
 
             return View(homePageVM);
 		}

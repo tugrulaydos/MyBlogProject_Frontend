@@ -48,6 +48,10 @@ namespace MyBlogProject_Frontend.Controllers
                 _homePageVM.Articles = JsonConvert.DeserializeObject<List<ArticleDto>>(jsonString2, settings2);
             }
 
+            _homePageVM.Articles = _homePageVM.Articles.OrderByDescending(x => x.ID).ToList();
+
+            _homePageVM.Categories = _homePageVM.Categories.OrderByDescending(x => x.ID).ToList();
+
             
 
             return View(_homePageVM);

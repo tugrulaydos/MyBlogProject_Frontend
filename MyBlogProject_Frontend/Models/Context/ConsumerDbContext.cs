@@ -19,7 +19,7 @@ namespace MyBlogProject_Frontend.Models.Context
 
         public DbSet<About> AboutUs { get; set; }
 
-        public DbSet<Contact> Contacts { get; set; }
+        public DbSet<Contact> Contact { get; set; }
 
     }
 }

@@ -27,19 +27,23 @@
                         icon: 'success',
                         title: 'Mesajınız Başarıyla iletildi Teşekkürler',
                         showConfirmButton: false,
-                        timer: 1500
+                        timer: 2500
 
                     })
 
+                    setTimeout(function () {
+                        window.location.href = "/Contact/Index"
+
+                    }, 1500)
+
 
                 }
-                else
-                {
+                else {
                     Swal.fire({
                         icon: 'error',
                         title: 'Oops...',
                         text: 'Hata Bir şey yanlış gitti!',
-                        footer: '<a href="">Lütfen Daha Sonra Tekrar Deneyin</a>'
+                        html: response.message
                     })
                 }
 

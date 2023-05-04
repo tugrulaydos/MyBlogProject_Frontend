@@ -17,9 +17,7 @@ $(document).ready(function () {
             Name: $("input[id=categoryName]").val()
         }
 
-        var jsonData = JSON.stringify(categoryAddDto);
-
-        debugger;
+        var jsonData = JSON.stringify(categoryAddDto);    
 
 
 

@@ -1,9 +1,9 @@
-﻿@model List<ApiArticleGetDto>
-
-@{
+﻿@{
 	ViewData["Title"] = "Index";
 	Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
 }
+
+@model List<Contact>
 
 @section styles{
 
@@ -12,64 +12,43 @@
 	<link rel="stylesheet" href="/Admin/plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
 	<link rel="stylesheet" href="/Admin/plugins/datatables-buttons/css/buttons.bootstrap4.min.css">
 
-
 	<link href="~/admin/plugins/select2/css/select2.min.css" rel="stylesheet" />
-
-
-
 	<link href="~/admin/plugins/sweetalert2/sweetalert2.min.css" rel="stylesheet" />
-
 
 	<link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
 
 }
 
-
-
-<a class="btn btn-success mb-3" asp-area="Admin" asp-controller="Article" asp-action="Add">Makale Ekle<i class="bx bx-plus"></i></a>
-
-<table class="table" id="tblArticles">
+<table class="table" id="ContactTable">
 	<thead>
 
 		<tr>
 			<th>ID</th>
-			<th>BAŞLIK</th>
-			<th>OLUŞTURULMA TARİHİ</th>
-			<th>GÜNCELLENME TARİHİ</th>
-
-			<th>GÜNCELLE </th>
+			<th>Ad Soyad</th>
+			<th>Konu</th>
+			<th>Gönderim Tarihi</th>
 			<th>SİL</th>
-			<th>DETAY</th>
+			<th>GÖRÜNTÜLE</th>
 		</tr>
 	</thead>
 
 	<tbody>
 		@foreach (var item in Model)
 		{
-			@if (item.IsDeleted == false)
-			{
-				<tr>
-					<td>@item.ID</td>
-					<td>@item.Title</td>
-					<td>@(item.CreatedDate)</td>
 
-					@if (item.ModifiedDate.Hour + item.ModifiedDate.Minute + item.ModifiedDate.Second + item.ModifiedDate.Millisecond + item.ModifiedDate.Ticks == 0)
-					{
-						<td>Güncelleme Yok</td>
-					}
-					else
-					{
-						<td>@item.ModifiedDate</td>
-					}
+			<tr>
+				<td>@item.ID</td>
+				<td>@item.Name</td>
+				<td>@item.Subject</td>
+				<td>@(item.CreatedDate)</td>
 
 
-					<td><a href="/admin/Article/Update/@item.ID" class="btn btn-primary"><i class='bx bx-up-arrow-alt'></i></a></td>
 
-					<td><button type="button" class="btn btn-danger DeleteArticle" span="@item.ID"><i class='bx bx-trash'></i></button></td>
-					<td><a href="/admin/Article/Details/@item.ID" class="btn btn-warning"><i class='bx bx-show'></i></a></td>
+				<td><button type="button" class="btn btn-danger ContactDeleteButon" x="@item.ID"><i class='bx bx-trash'></i></button></td>
+				<td><a href="/admin/MessageBox/Details/@item.ID" class="btn btn-warning"><i class='bx bx-show'></i></a></td>
 
-				</tr>
-			}
+			</tr>
+
 		}
 
 	</tbody>
@@ -77,9 +56,13 @@
 </table>
 
 
-@section scripts
-	{
 
+
+
+
+
+@section Scripts
+	{
 	<script src="/Admin/plugins/datatables/jquery.dataTables.min.js"></script>
 	<script src="/Admin/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
 
@@ -94,12 +77,13 @@
 	<script src="/Admin/plugins/datatables-buttons/js/buttons.print.min.js"></script>
 	<script src="/Admin/plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
 
-	<script src="~/js/articledeletealert.js"></script>
+
+	<script src="~/js/ContactDataTable.js"></script>
 
 	<script src="~/admin/plugins/select2/js/select2.full.min.js"></script>
+
 	<script src="~/admin/plugins/sweetalert2/sweetalert2.min.js"></script>
-	<script src="~/js/ArticleIndex.js"></script>
 
-}
+	<script src="~/js/contactdeletewarning.js"></script>
 
-
+    }

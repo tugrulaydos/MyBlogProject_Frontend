@@ -1,7 +1,7 @@
 ﻿using FluentValidation.Results;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
-
+using MyBlogProject_Frontend.Areas.Admin.AttributeFilters;
 using MyBlogProject_Frontend.Areas.Admin.Models.DTOs;
 using MyBlogProject_Frontend.Areas.Admin.Models.DTOs.Article;
 using MyBlogProject_Frontend.Areas.Admin.Models.DTOs.Category;
@@ -22,6 +22,7 @@ namespace MyBlogProject_Frontend.Areas.Admin.Controllers
     {
 		private static bool _DetailPage = false;
 
+		[Session("username", "Authentication", "Login")]
 		public IActionResult Index()
         {
             
@@ -51,8 +52,9 @@ namespace MyBlogProject_Frontend.Areas.Admin.Controllers
             return View(CategoryList);
             
         }
-        
-        public IActionResult Delete([FromBody]int Id)
+
+		[Session("username", "Authentication", "Login")]
+		public IActionResult Delete([FromBody]int Id)
         {
 			var patchDoc = new JsonPatchDocument<CategorySoftDeleteDto>();
 			patchDoc.Replace(e => e.IsDeleted, true);
@@ -73,14 +75,16 @@ namespace MyBlogProject_Frontend.Areas.Admin.Controllers
 
         }
 
-        [HttpGet]
+		[Session("username", "Authentication", "Login")]
+		[HttpGet]
         public IActionResult Add()
         {
             return View();
         }
 
 
-        [HttpPost]
+		[Session("username", "Authentication", "Login")]
+		[HttpPost]
         public IActionResult Add([FromBody] CategoryAddDto categoryAddDto) 
         {
 
@@ -118,7 +122,8 @@ namespace MyBlogProject_Frontend.Areas.Admin.Controllers
 
         }
 
-        [HttpPost]
+		[Session("username", "Authentication", "Login")]
+		[HttpPost]
         public IActionResult AddWithAjax([FromBody]CategoryAddDto categoryAddDto)
         {
 			NewCategoryValidator validator = new();

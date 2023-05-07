@@ -17,6 +17,7 @@ namespace MyBlogProject_Frontend.Areas.Admin.Controllers
 		      this._consumerDbContext = consumerDbContext;
 		}
 
+		[Session("username", "Authentication", "Login")]
 		public IActionResult Index()
 		{
 			var Contacts = _consumerDbContext.Contact.ToList();
@@ -24,7 +25,8 @@ namespace MyBlogProject_Frontend.Areas.Admin.Controllers
 			return View(Contacts);
 		}
 
-	
+
+		[Session("username", "Authentication", "Login")]
 		public IActionResult Delete([FromBody] int id)
 		{
 			var data = _consumerDbContext.Contact.SingleOrDefault(x => x.ID == id);
@@ -40,6 +42,7 @@ namespace MyBlogProject_Frontend.Areas.Admin.Controllers
 
 		}
 
+		[Session("username", "Authentication", "Login")]
 		public IActionResult Details(int Id)
 		{
 			var data = _consumerDbContext.Contact.SingleOrDefault(y=>y.ID== Id);

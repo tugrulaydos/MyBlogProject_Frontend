@@ -5,6 +5,31 @@
 	Layout = "~/Views/Shared/LayoutProperPage.cshtml";
 }
 
+@section headers
+{    
+	
+	<div class="collapse navbar-collapse" id="navbarResponsive">
+		<ul class="navbar-nav ml-auto">
+			<li class="nav-item">
+				<a class="nav-link active" href="/HomePage/Index">
+					ANA SAYFA
+					<span class="sr-only">(current)</span>
+				</a>
+			</li>
+			<li class="nav-item">
+				<a class="nav-link" href="/AboutUs/Index">HAKKIMIZDA</a>
+			</li>
+			<li class="nav-item">
+				<a class="nav-link" href="/Contact/Index">İLETİŞİM</a>
+			</li>
+
+		</ul>
+	</div>
+
+}
+
+
+
 <section class="blog-posts">
 	<div class="container">
 		<div class="row">
@@ -17,7 +42,7 @@
 
 								<div class="blog-post">
 									<div class="blog-thumb">
-										<img src="/ArticlePhotos/@item.PhotoPath" >
+										<img src="/ArticlePhotos/@item.PhotoPath">
 									</div>
 									<div class="down-content">
 										<span>@item.Category.Name</span>
@@ -32,7 +57,7 @@
 									</div>
 								</div>
 							</div>
-						}						
+						}
 
 
 					</div>

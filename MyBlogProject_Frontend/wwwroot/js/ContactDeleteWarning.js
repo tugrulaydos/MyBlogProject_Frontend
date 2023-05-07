@@ -49,14 +49,7 @@
                     }
                 });
             }
-            else
-            {
-                Swal.fire(
-                    'Deleted!',
-                    'Mesaj Silinirken Bir Hata Oluştu!',
-                    'error'
-                )
-            }
+            
         });
     });
 

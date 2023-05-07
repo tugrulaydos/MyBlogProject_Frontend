@@ -2,6 +2,7 @@
 using FluentValidation.Results;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
+using MyBlogProject_Frontend.Areas.Admin.AttributeFilters;
 using MyBlogProject_Frontend.Areas.Admin.Models.DTOs.Article;
 using MyBlogProject_Frontend.Areas.Validations.ArticleValidator;
 using MyBlogProject_Frontend.Models.Context;
@@ -24,6 +25,7 @@ namespace MyBlogProject_Frontend.Areas.Admin.Controllers
 			_webHostEnvironment = webHostEnvironment;
 		}
 
+		[Session("username", "Authentication", "Login")]
 		public IActionResult Index()
 		{
 
@@ -33,6 +35,7 @@ namespace MyBlogProject_Frontend.Areas.Admin.Controllers
 
 		}
 
+		[Session("username", "Authentication", "Login")]
 		[HttpGet]
 		public IActionResult Update()
 		{
@@ -44,6 +47,7 @@ namespace MyBlogProject_Frontend.Areas.Admin.Controllers
 			return View(About);		
 		}
 
+		[Session("username", "Authentication", "Login")]
 		[HttpPost]
 		public IActionResult Update(AboutDto aboutDto)
 		{
@@ -108,7 +112,7 @@ namespace MyBlogProject_Frontend.Areas.Admin.Controllers
 
 			}
 
-			return Json(new { isSuccess = false });
+			//return Json(new { isSuccess = false });
 
 
 
